@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Design tokens — extraídos do mockup canônico (conteudo/08-seguro-bike.md)
+--------------------------------------------------------------------------- */
+:root {
+  --color-navy: #0d1b3d;
+  --color-navy-hover: #13295f;
+  --color-gold: #b59672;
+  --color-background: #f8f8f8;
+  --color-white: #ffffff;
+  --color-border: #ececec;
+  --color-text-muted: #666666;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface font-sans text-navy antialiased;
+  }
+
+  ::selection {
+    @apply bg-gold/30;
+  }
+}
+
+@layer components {
+  /* Container central: max 1200px, largura 90% */
+  .container-site {
+    @apply mx-auto w-[90%] max-w-[1200px];
+  }
+
+  /* Padding vertical padrão das seções (90px desktop / reduzido no mobile) */
+  .section-pad {
+    @apply py-16 desk:py-[90px];
+  }
+}

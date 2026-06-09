@@ -1,0 +1,19 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+
+# env (o site não precisa de env em runtime; .env.example é só documentação)
+.env
+.env.local
+.env.*.local
+
+# typescript
+*.tsbuildinfo
