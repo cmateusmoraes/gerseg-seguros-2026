@@ -9,12 +9,13 @@ export function Footer() {
 
   return (
     <footer className="bg-navy text-white">
+      <div aria-hidden className="h-1 w-full bg-gold" />
       <div className="container-site grid gap-10 py-14 desk:grid-cols-4 desk:gap-8">
         {/* Logo + tagline */}
         <div>
           <Link href="/">
             <Image
-              src="/assets/logo/logo-gerseg-branca.png"
+              src="/assets/logo/logo-gerseg-branca.webp"
               alt="Gerseg Seguros"
               width={170}
               height={50}

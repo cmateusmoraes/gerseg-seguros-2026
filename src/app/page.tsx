@@ -2,6 +2,7 @@ import Image from "next/image";
 import {
   Award,
   BadgeCheck,
+  Bike,
   Car,
   Headset,
   KeyRound,
@@ -10,7 +11,6 @@ import {
   MapPin,
   Phone,
   ShieldCheck,
-  Smartphone,
 } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/lib/config";
 import { getProduct } from "@/lib/products";
@@ -22,16 +22,16 @@ import { InsurersGrid } from "@/components/sections/InsurersGrid";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
-/** Ordem dos cards conforme conteudo/00-home.md */
+/** Ordem dos cards definida para a Home */
 const homeProductSlugs = [
-  "plano-de-saude-pet",
-  "seguro-notebook",
-  "seguro-celular",
-  "seguro-incendio-residencial",
-  "seguro-aluguel-fianca",
   "seguro-automovel",
+  "seguro-aluguel-fianca",
   "titulo-de-capitalizacao-para-locacao",
+  "seguro-incendio-residencial",
   "seguro-bike",
+  "plano-de-saude-pet",
+  "seguro-celular",
+  "seguro-notebook",
 ];
 
 const diferenciais = [
@@ -67,18 +67,23 @@ const propostas = [
     title: "Seguro Automóvel",
     highlight: "Cote já!",
     text: "Trabalhamos com as melhores seguradoras do mercado.",
+    message: "Olá! Gostaria de solicitar uma cotação de Seguro Automóvel.",
   },
   {
     icon: KeyRound,
-    title: "Carro por assinatura",
-    highlight: "Nós usamos!",
-    text: "Nada melhor que utilizar o serviço para comprovar a eficiência. Entre em contato!",
+    title: "Seguro Aluguel / Fiança",
+    highlight: "Sem fiador e sem caução",
+    text: "Você não precisa se preocupar com fiador e caução, aluga o imóvel que quiser com agilidade e ainda conta com vários benefícios.",
+    message:
+      "Olá! Gostaria de solicitar uma proposta de Seguro Aluguel / Fiança.",
   },
   {
-    icon: Smartphone,
-    title: "Celular por assinatura",
-    highlight: "Samsung S21, S21+ e S21 Ultra",
-    text: "Troque de celular todo ano por um preço menor do que você gasta para comprar um celular.",
+    icon: Bike,
+    title: "Seguro Bike e Bike Elétrica",
+    highlight: "Bikes comuns e elétricas",
+    text: "Pedale com tranquilidade. Cobertura para bikes comuns e elétricas, com atendimento humanizado pela Porto Seguro.",
+    message:
+      "Olá! Gostaria de solicitar uma cotação de Seguro Bike e Bike Elétrica.",
   },
 ];
 
@@ -90,10 +95,10 @@ export default function HomePage() {
         titleLines={["Há mais de 40 anos"]}
         titleAccent="protegendo o que importa pra você."
         paragraph={siteConfig.description}
-        cta={<WhatsAppButton size="lg">Faça uma cotação</WhatsAppButton>}
+        cta={<WhatsAppButton variant="gold">Faça uma cotação</WhatsAppButton>}
         image={{
-          src: "/assets/imagens/home-hero-automovel.jpg",
-          alt: "Seguro automóvel — Gerseg Seguros",
+          src: "/assets/imagens/home-hero-automovel.webp",
+          alt: "Casa, carro e bike elétrica protegidos pela Gerseg Seguros",
         }}
       />
 
@@ -101,14 +106,14 @@ export default function HomePage() {
       <section id="quem-somos" className="scroll-mt-28">
         <div className="container-site section-pad grid items-center gap-10 desk:grid-cols-2 desk:gap-14">
           <Image
-            src="/assets/imagens/quem-somos.jpg"
+            src="/assets/imagens/quem-somos.webp"
             alt="Equipe Gerseg Seguros"
             width={760}
             height={420}
-            className="w-full rounded-img border border-line object-cover"
+            className="h-72 w-full rounded-img border-2 border-gold/40 object-cover shadow-card desk:h-[440px]"
           />
           <div>
-            <SectionHeading title="Quem Somos" align="left" />
+            <SectionHeading title="Quem Somos" align="left" withRule />
             <p className="mt-6 text-base leading-relaxed text-muted">
               Fundada em 1985, ela sempre esteve no mercado de seguros com
               preços competitivos, atendimento personalizado e agilidade nas
@@ -129,7 +134,7 @@ export default function HomePage() {
               ))}
             </ul>
             <div className="mt-8 flex flex-wrap items-center gap-5">
-              <WhatsAppButton>Faça uma cotação</WhatsAppButton>
+              <WhatsAppButton variant="gold">Faça uma cotação</WhatsAppButton>
               <span className="flex items-center gap-2 text-sm font-semibold text-navy">
                 <Phone className="h-4 w-4 text-gold" aria-hidden="true" />
                 {siteConfig.phone.cellDisplay}
@@ -142,16 +147,17 @@ export default function HomePage() {
       {/* Nossos Diferenciais */}
       <section className="bg-white">
         <div className="container-site section-pad">
-          <SectionHeading title="Nossos Diferenciais" />
-          <p className="mx-auto mt-6 max-w-3xl text-center text-base leading-relaxed text-muted">
+          <SectionHeading title="Nossos Diferenciais" align="left" withRule />
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted">
             Temos mais de 40 anos de experiência no mercado de seguros, isso
             nos trouxe o conhecimento necessário para fazer com que nossos
             clientes não caiam em pegadinhas ou tenham problemas no momento em
             que mais precisarem dos serviços.
           </p>
-          <FeatureGrid items={diferenciais} columns={4} className="mt-12" />
+          <FeatureGrid items={diferenciais} columns={4} numbered className="mt-12" />
           <p className="mt-12 text-center font-serif text-xl font-bold text-navy">
-            Ouvimos nossos clientes para oferecer as melhores soluções do mercado.
+            Ouvimos nossos clientes para oferecer as melhores
+            <span className="text-gold"> soluções do mercado.</span>
           </p>
         </div>
       </section>
@@ -159,27 +165,35 @@ export default function HomePage() {
       {/* Produtos */}
       <section id="produtos" className="scroll-mt-28">
         <div className="container-site section-pad">
-          <SectionHeading title="Produtos" />
+          <SectionHeading title="Produtos" align="left" withRule />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 desk:grid-cols-4">
             {homeProductSlugs.map((slug) => (
               <ProductCard key={slug} product={getProduct(slug)} />
             ))}
           </div>
           <div className="mt-12 text-center">
-            <WhatsAppButton size="lg">Solicite uma cotação</WhatsAppButton>
+            <WhatsAppButton variant="gold">Solicite uma cotação</WhatsAppButton>
           </div>
         </div>
       </section>
 
-      {/* Solicite uma Proposta */}
-      <section className="bg-white">
-        <div className="container-site section-pad">
-          <SectionHeading title="Solicite uma Proposta" />
+      {/* Solicite uma Proposta — faixa escura */}
+      <section className="relative overflow-hidden bg-navy">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-32 top-1/2 hidden h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-white/[0.03] desk:block"
+        />
+        <div className="container-site section-pad relative">
+          <SectionHeading title="Solicite uma Proposta" onDark withRule />
           <div className="mt-12 grid gap-6 desk:grid-cols-3">
-            {propostas.map(({ icon: Icon, title, highlight, text }) => (
-              <div
+            {propostas.map(({ icon: Icon, title, highlight, text, message }) => (
+              <a
                 key={title}
-                className="rounded-card border border-line bg-white p-8 text-center transition-all duration-200 hover:-translate-y-[5px] hover:shadow-lg"
+                href={whatsappUrl(siteConfig.whatsapp.number, message)}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Solicitar proposta de ${title} pelo WhatsApp`}
+                className="rounded-card border border-white/10 bg-white p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-[5px] hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-navy"
               >
                 <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-white">
                   <Icon className="h-7 w-7" aria-hidden="true" />
@@ -187,7 +201,7 @@ export default function HomePage() {
                 <h3 className="font-serif text-xl font-medium text-navy">{title}</h3>
                 <p className="mt-2 font-semibold text-gold">{highlight}</p>
                 <p className="mt-3 text-sm leading-relaxed text-muted">{text}</p>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -196,13 +210,13 @@ export default function HomePage() {
       {/* Atendimento diferenciado / Contato */}
       <section id="contato" className="scroll-mt-28">
         <div className="container-site section-pad">
-          <SectionHeading title="Atendimento diferenciado" />
+          <SectionHeading title="Atendimento diferenciado" withRule />
           <div className="mt-12 grid gap-6 desk:grid-cols-3">
             <a
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-card border border-line bg-white p-8 text-center transition-all duration-200 hover:-translate-y-[5px] hover:shadow-lg"
+              className="group rounded-card border border-line bg-white p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-[5px] hover:border-gold/40 hover:shadow-card-hover"
             >
               <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white">
                 <WhatsAppIcon className="h-7 w-7" />
@@ -217,7 +231,7 @@ export default function HomePage() {
             </a>
             <a
               href={`tel:+5511985419978`}
-              className="rounded-card border border-line bg-white p-8 text-center transition-all duration-200 hover:-translate-y-[5px] hover:shadow-lg"
+              className="group rounded-card border border-line bg-white p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-[5px] hover:border-gold/40 hover:shadow-card-hover"
             >
               <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-white">
                 <Phone className="h-7 w-7" aria-hidden="true" />
@@ -232,7 +246,7 @@ export default function HomePage() {
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="rounded-card border border-line bg-white p-8 text-center transition-all duration-200 hover:-translate-y-[5px] hover:shadow-lg"
+              className="group rounded-card border border-line bg-white p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-[5px] hover:border-gold/40 hover:shadow-card-hover"
             >
               <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-white">
                 <Mail className="h-7 w-7" aria-hidden="true" />
@@ -250,7 +264,7 @@ export default function HomePage() {
       {/* Seguradoras */}
       <section className="bg-white">
         <div className="container-site section-pad">
-          <SectionHeading title="Seguradoras" />
+          <SectionHeading title="Seguradoras" withRule />
           <div className="mt-12">
             <InsurersGrid />
           </div>

@@ -17,9 +17,14 @@ interface HeroProps {
   /** Selo no canto da imagem (ex.: "Corretora parceira" + logo Porto) */
   badge?: { label: string; logoSrc: string; logoAlt: string };
   bullets?: HeroBullet[];
+  /**
+   * "split" (padrão): 2 colunas texto + imagem (referência mockup Bike).
+   * "banner": imagem panorâmica full-width com texto sobreposto (Home).
+   */
+  variant?: "split" | "banner";
 }
 
-/** Hero 2 colunas do design system (referência: mockup Seguro Bike). */
+/** Hero do design system. */
 export function Hero({
   titleLines,
   titleAccent,
@@ -28,12 +33,66 @@ export function Hero({
   image,
   badge,
   bullets,
+  variant = "split",
 }: HeroProps) {
+  if (variant === "banner") {
+    return (
+      <section className="relative min-h-[520px] w-full overflow-hidden bg-navy desk:min-h-[640px]">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* Scrim navy: forte à esquerda (legibilidade do texto), some à direita */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-transparent"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-navy/40 desk:bg-transparent"
+        />
+        <div className="container-site relative flex min-h-[520px] items-center py-16 desk:min-h-[640px]">
+          <div className="max-w-xl">
+            <span aria-hidden className="mb-6 flex items-center gap-1.5">
+              <span className="h-[3px] w-12 rounded-full bg-gold" />
+              <span className="h-[3px] w-3 rounded-full bg-gold/50" />
+            </span>
+            <h1 className="font-serif text-4xl font-medium leading-[1.08] tracking-tight desk:text-[3.4rem]">
+              {titleLines.map((line) => (
+                <span key={line} className="block text-white">
+                  {line}
+                </span>
+              ))}
+              {titleAccent && <span className="block text-gold">{titleAccent}</span>}
+            </h1>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-white/85">
+              {paragraph}
+            </p>
+            <div className="mt-8">{cta}</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="bg-white">
-      <div className="container-site grid items-center gap-10 py-14 desk:grid-cols-2 desk:gap-14 desk:py-20">
+    <section className="relative overflow-hidden bg-white">
+      {/* Acento de fundo sutil em tom dourado */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-28 -top-28 hidden h-[480px] w-[480px] rounded-full bg-gold/[0.07] desk:block"
+      />
+      <div className="container-site relative grid items-center gap-10 py-14 desk:grid-cols-2 desk:gap-14 desk:py-20">
         <div>
-          <h1 className="font-serif text-4xl font-medium leading-tight desk:text-5xl">
+          <span aria-hidden className="mb-6 flex items-center gap-1.5">
+            <span className="h-[3px] w-12 rounded-full bg-gold" />
+            <span className="h-[3px] w-3 rounded-full bg-gold/50" />
+          </span>
+          <h1 className="font-serif text-4xl font-medium leading-[1.08] tracking-tight desk:text-[3.4rem]">
             {titleLines.map((line) => (
               <span key={line} className="block text-navy">
                 {line}
@@ -68,7 +127,7 @@ export function Hero({
             width={900}
             height={760}
             priority
-            className="w-full rounded-img object-cover"
+            className="h-72 w-full rounded-img border-2 border-gold/40 object-cover shadow-card desk:h-[480px]"
           />
         </div>
       </div>
@@ -78,7 +137,7 @@ export function Hero({
           <div className="container-site grid grid-cols-2 gap-6 py-6 desk:grid-cols-4">
             {bullets.map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-3">
-                <Icon className="h-6 w-6 shrink-0 text-navy" aria-hidden="true" />
+                <Icon className="h-6 w-6 shrink-0 text-gold" aria-hidden="true" />
                 <span className="text-sm text-navy">{label}</span>
               </div>
             ))}

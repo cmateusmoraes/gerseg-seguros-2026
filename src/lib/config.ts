@@ -58,7 +58,11 @@ export const siteConfig = {
   },
 } as const;
 
-/** Monta a URL de click-to-chat do WhatsApp. */
-export function whatsappUrl(number: string = siteConfig.whatsapp.number): string {
-  return `https://wa.me/${number}`;
+/** Monta a URL de click-to-chat do WhatsApp, opcionalmente com mensagem preenchida. */
+export function whatsappUrl(
+  number: string = siteConfig.whatsapp.number,
+  message?: string
+): string {
+  const baseUrl = `https://wa.me/${number}`;
+  return message ? `${baseUrl}?text=${encodeURIComponent(message)}` : baseUrl;
 }

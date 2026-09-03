@@ -9,7 +9,9 @@ const whatsappButton = cva(
     variants: {
       variant: {
         solid: "bg-navy text-white hover:bg-navy-hover",
-        gold: "bg-gold text-white hover:brightness-110",
+        azure:
+          "bg-azure text-white shadow-card hover:bg-azure-hover hover:-translate-y-px",
+        gold: "bg-gold text-navy hover:brightness-105",
         outline:
           "border-2 border-navy text-navy hover:bg-navy hover:text-white",
         light:

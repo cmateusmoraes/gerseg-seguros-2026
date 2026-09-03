@@ -9,10 +9,16 @@ import { products, productUrl } from "@/lib/products";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
-const navLinks = [
-  { label: "Quem Somos", href: "/#quem-somos" },
-  { label: "Contato", href: "/#contato" },
+/** Produtos em destaque: links diretos no menu principal */
+const featuredProducts = [
+  { label: "Seguro Automóvel", slug: "seguro-automovel" },
+  { label: "Seguro Fiança", slug: "seguro-aluguel-fianca" },
 ];
+
+/** Demais produtos: ficam no dropdown "Outros Produtos" */
+const otherProducts = products.filter(
+  (p) => !featuredProducts.some((f) => f.slug === p.slug)
+);
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -73,44 +79,49 @@ export function Header() {
 
       {/* Main bar */}
       <div className="border-b border-line bg-white">
-        <div className="container-site flex h-[72px] items-center justify-between gap-6">
-          {/* Logo + tagline */}
-          <Link href="/" className="flex shrink-0 items-center gap-3" onClick={closeMobile}>
+        <div className="container-site flex h-20 items-center justify-between gap-6">
+          {/* Logo */}
+          <Link href="/" className="flex shrink-0 items-center" onClick={closeMobile}>
             <Image
-              src="/assets/logo/logo-gerseg-azul.png"
+              src="/assets/logo/logo-gerseg-azul.webp"
               alt="Gerseg Seguros"
-              width={150}
-              height={44}
+              width={300}
+              height={80}
               priority
-              className="h-10 w-auto"
+              className="h-12 w-auto xl:h-16"
             />
-            <span className="hidden border-l border-line pl-3 text-xs leading-tight text-muted lg:block">
-              Corretora
-              <br />
-              de Seguros
-            </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-7 desk:flex" aria-label="Navegação principal">
+          <nav className="hidden items-center gap-4 desk:flex xl:gap-7" aria-label="Navegação principal">
             <Link
               href="/#quem-somos"
-              className="text-sm font-medium transition-colors hover:text-gold"
+              className="whitespace-nowrap text-sm font-medium transition-colors hover:text-gold"
             >
               Quem Somos
             </Link>
 
-            {/* Produtos dropdown (hover/focus) */}
+            {featuredProducts.map((f) => (
+              <Link
+                key={f.slug}
+                href={productUrl(f.slug)}
+                className="whitespace-nowrap text-sm font-medium transition-colors hover:text-gold"
+              >
+                {f.label}
+              </Link>
+            ))}
+
+            {/* Outros Produtos dropdown (hover/focus) */}
             <div className="group relative">
               <Link
                 href="/#produtos"
-                className="flex items-center gap-1 py-6 text-sm font-medium transition-colors hover:text-gold"
+                className="flex items-center gap-1 whitespace-nowrap py-6 text-sm font-medium transition-colors hover:text-gold"
               >
-                Produtos
+                Outros Produtos
                 <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
               </Link>
               <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 rounded-faq border border-line bg-white py-2 opacity-0 shadow-xl transition-all duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                {products.map((p) => (
+                {otherProducts.map((p) => (
                   <Link
                     key={p.slug}
                     href={productUrl(p.slug)}
@@ -124,7 +135,7 @@ export function Header() {
 
             <Link
               href="/#contato"
-              className="text-sm font-medium transition-colors hover:text-gold"
+              className="whitespace-nowrap text-sm font-medium transition-colors hover:text-gold"
             >
               Contato
             </Link>
@@ -133,10 +144,11 @@ export function Header() {
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-btn bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-hover"
+              className="flex items-center gap-2 whitespace-nowrap rounded-btn bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-hover"
             >
               <WhatsAppIcon className="h-4 w-4" />
-              Como posso te ajudar?
+              <span className="xl:hidden">WhatsApp</span>
+              <span className="hidden xl:inline">Como posso te ajudar?</span>
             </a>
           </nav>
 
@@ -160,14 +172,21 @@ export function Header() {
           )}
         >
           <nav className="container-site flex flex-col py-4" aria-label="Navegação mobile">
-            {navLinks.map((l) => (
+            <Link
+              href="/#quem-somos"
+              onClick={closeMobile}
+              className="border-b border-line py-3 text-sm font-medium"
+            >
+              Quem Somos
+            </Link>
+            {featuredProducts.map((f) => (
               <Link
-                key={l.href}
-                href={l.href}
+                key={f.slug}
+                href={productUrl(f.slug)}
                 onClick={closeMobile}
                 className="border-b border-line py-3 text-sm font-medium"
               >
-                {l.label}
+                {f.label}
               </Link>
             ))}
             <button
@@ -176,7 +195,7 @@ export function Header() {
               aria-expanded={mobileProductsOpen}
               onClick={() => setMobileProductsOpen((v) => !v)}
             >
-              Produtos
+              Outros Produtos
               <ChevronDown
                 className={cn(
                   "h-4 w-4 transition-transform",
@@ -186,7 +205,7 @@ export function Header() {
             </button>
             {mobileProductsOpen && (
               <div className="flex flex-col bg-surface">
-                {products.map((p) => (
+                {otherProducts.map((p) => (
                   <Link
                     key={p.slug}
                     href={productUrl(p.slug)}
@@ -198,6 +217,13 @@ export function Header() {
                 ))}
               </div>
             )}
+            <Link
+              href="/#contato"
+              onClick={closeMobile}
+              className="border-b border-line py-3 text-sm font-medium"
+            >
+              Contato
+            </Link>
             <a
               href={whatsappUrl()}
               target="_blank"

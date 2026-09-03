@@ -24,6 +24,9 @@ import { StepsGrid } from "@/components/sections/StepsGrid";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { getProduct } from "@/lib/products";
+
+const product = getProduct("seguro-bike");
 
 export const metadata: Metadata = {
   // Título canônico da página (ESTRUTURA-SITE.md) — não usa o template "%s – Gerseg Seguros"
@@ -162,13 +165,12 @@ export default function SeguroBikePage() {
           </WhatsAppButton>
         }
         image={{
-          // TODO: substituir placeholder pela foto definitiva (scooter/bike elétrica)
-          src: "/assets/imagens/pagina-bike-hero.jpg",
-          alt: "Bike elétrica em ambiente urbano",
+          src: product.cardImage,
+          alt: product.title,
         }}
         badge={{
           label: "Corretora parceira",
-          logoSrc: "/assets/seguradoras/porto-seguro.png",
+          logoSrc: "/assets/seguradoras/porto-seguro.webp",
           logoAlt: "Porto Seguro",
         }}
         bullets={[
@@ -195,7 +197,7 @@ export default function SeguroBikePage() {
         <div className="container-site section-pad grid items-center gap-10 desk:grid-cols-[1fr_1.4fr] desk:gap-14">
           <Image
             // TODO: substituir placeholder pela foto definitiva (pessoa com celular/logo Gerseg)
-            src="/assets/imagens/pagina-bike-atendimento.jpg"
+            src="/assets/imagens/pagina-bike-atendimento.webp"
             alt="Atendimento Gerseg Seguros pelo celular"
             width={600}
             height={760}

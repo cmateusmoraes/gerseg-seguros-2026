@@ -6,16 +6,19 @@ import { CheckList } from "@/components/sections/CheckList";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { siteConfig } from "@/lib/config";
+import { getProduct } from "@/lib/products";
+
+const product = getProduct("seguro-incendio-residencial");
 
 export const metadata: Metadata = {
-  title: "Seguro Incêndio Residencial",
+  title: product.title,
 };
 
 export default function SeguroIncendioPage() {
   return (
     <>
       {/* Breadcrumb corrigido: "Services" (original) → "Serviços" */}
-      <PageBanner title="Seguro Incêndio Residencial" />
+      <PageBanner title={product.title} />
 
       <ProductIntro
         paragraphs={[
@@ -23,8 +26,8 @@ export default function SeguroIncendioPage() {
           "Cobre os danos materiais causados por incêndio, raio ou explosão ao imóvel segurado, bem como outras coberturas adicionais.",
         ]}
         image={{
-          src: "/assets/imagens/pagina-incendio.jpg",
-          alt: "Seguro Incêndio Residencial",
+          src: product.cardImage,
+          alt: product.title,
         }}
         ctas={<WhatsAppButton>Entre em contato</WhatsAppButton>}
         phoneNote={siteConfig.phone.cellDisplay}

@@ -79,7 +79,7 @@ Páginas Notebook e Celular usam `ExternalButton` com esses links como "Contrate
 2. **Horário de atendimento**: site usa 09h–18h (canônico do material); mockup Bike dizia 8h–18h
 3. **Respostas de 2 FAQs da Bike** ("cobre acessórios?" e "bike usada?") — usam as respostas sugeridas no material, marcadas com comentário no código
 4. **Preços do Plano Pet**: tabela renderiza **sem valores** (R$ 49,90–299,90 do site antigo podem estar defasados) — CTA "Consulte valores"; os valores estão em `../conteudo/03-plano-saude-pet.md` se for preciso reativar
-5. **3 imagens placeholder** (navy/gold geradas programaticamente) em `public/assets/imagens/`: `card-seguro-bike.jpg`, `pagina-bike-hero.jpg`, `pagina-bike-atendimento.jpg` — substituir pelas fotos definitivas mantendo nome e proporção
+5. **3 imagens placeholder** (navy/gold geradas programaticamente) em `public/assets/imagens/`: `card-seguro-bike.webp`, `pagina-bike-hero.webp`, `pagina-bike-atendimento.webp` — substituir pelas fotos definitivas mantendo nome e proporção
 6. **GTM** (GTM-NQ8BGMZ do site antigo) não foi incluído — decisão em aberto
 
 ## Comandos e deploy

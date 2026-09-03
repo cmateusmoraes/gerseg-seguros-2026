@@ -5,15 +5,18 @@ import { SectionHeading } from "@/components/sections/SectionHeading";
 import { CheckList } from "@/components/sections/CheckList";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { getProduct } from "@/lib/products";
+
+const product = getProduct("titulo-de-capitalizacao-para-locacao");
 
 export const metadata: Metadata = {
-  title: "Título de Capitalização / Locação",
+  title: product.title,
 };
 
 export default function CapitalizacaoPage() {
   return (
     <>
-      <PageBanner title="Título de Capitalização / Locação" />
+      <PageBanner title={product.title} />
 
       <ProductIntro
         title="Como funciona o PortoCap Aluguel?"
@@ -23,8 +26,8 @@ export default function CapitalizacaoPage() {
           "Durante a vigência, o inquilino participa de sorteios mensais pela Loteria Federal e concorre a prêmios de até 5 vezes o valor do título de acordo com a regra vigente no momento da contratação. Além disso, conta com serviços emergenciais à residência alugada e, em caso de permanência até o final da vigência sem utilizar a garantia, resgate percentual do valor capitalizado de acordo com o plano escolhido.",
         ]}
         image={{
-          src: "/assets/imagens/pagina-capitalizacao.jpg",
-          alt: "Título de Capitalização para Locação",
+          src: product.cardImage,
+          alt: product.title,
         }}
         ctas={
           <>

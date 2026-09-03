@@ -22,7 +22,7 @@ npm run build    # gera a pasta out/ (site estático completo)
 
 **Conversão:** não há formulário — todos os CTAs abrem o WhatsApp (`WhatsAppButton`). A página **Seguro Bike** usa um número próprio (`whatsappBike` em `config.ts`) — ⚠️ pendente de validação com a Karol.
 
-**Imagens provisórias:** `card-seguro-bike.jpg`, `pagina-bike-hero.jpg` e `pagina-bike-atendimento.jpg` (em `public/assets/imagens/`) são placeholders — substituir pelas fotos definitivas mantendo os mesmos nomes.
+**Imagens provisórias:** `card-seguro-bike.webp`, `pagina-bike-hero.webp` e `pagina-bike-atendimento.webp` (em `public/assets/imagens/`) são placeholders — substituir pelas fotos definitivas mantendo os mesmos nomes.
 
 ## Deploy (GitHub Actions → FTP)
 

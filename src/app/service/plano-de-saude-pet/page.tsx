@@ -8,9 +8,12 @@ import { PricingTable, type Plan } from "@/components/sections/PricingTable";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { siteConfig } from "@/lib/config";
+import { getProduct } from "@/lib/products";
+
+const product = getProduct("plano-de-saude-pet");
 
 export const metadata: Metadata = {
-  title: "Plano de Saúde Pet",
+  title: product.title,
 };
 
 const vantagens = [
@@ -88,16 +91,19 @@ const plans: Plan[] = [
 export default function PlanoSaudePetPage() {
   return (
     <>
-      {/* Breadcrumb original: Home › Plano de Saúde Pet (sem "Serviços") */}
-      <PageBanner title="Plano de Saúde Pet" trail={[]} />
+      <PageBanner title={product.title} trail={[]} />
 
       <ProductIntro
         paragraphs={[
           "Uma vida mais longa e saudável para o seu filho de quatro patas. Entenda como funciona o melhor e maior plano de saúde pet do Brasil e nunca mais tenha surpresas no orçamento.",
         ]}
+        image={{
+          src: product.cardImage,
+          alt: product.title,
+        }}
         video={{
           src: "https://www.youtube.com/embed/1vMumJWw-Q0?rel=0",
-          title: "Plano de Saúde Pet — Gerseg Seguros",
+          title: "Seguro de Saúde Pet — Gerseg Seguros",
         }}
         ctas={<WhatsAppButton>Contrate agora!</WhatsAppButton>}
         phoneNote={`Tire suas dúvidas: ${siteConfig.phone.cellDisplay}`}

@@ -6,13 +6,14 @@
    Design tokens — extraídos do mockup canônico (conteudo/08-seguro-bike.md)
 --------------------------------------------------------------------------- */
 :root {
-  --color-navy: #0d1b3d;
-  --color-navy-hover: #13295f;
-  --color-gold: #b59672;
-  --color-background: #f8f8f8;
+  --color-navy: #002440;
+  --color-navy-hover: #0a3a5e;
+  --color-azure: #1e6ca8;
+  --color-gold: #c7a77b;
+  --color-background: #fbfaf8;
   --color-white: #ffffff;
-  --color-border: #ececec;
-  --color-text-muted: #666666;
+  --color-border: #e7e5e0;
+  --color-text-muted: #5a6470;
 }
 
 @layer base {

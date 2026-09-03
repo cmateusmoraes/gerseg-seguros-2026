@@ -7,15 +7,18 @@ import { InsurersGrid } from "@/components/sections/InsurersGrid";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { siteConfig } from "@/lib/config";
+import { getProduct } from "@/lib/products";
+
+const product = getProduct("seguro-automovel");
 
 export const metadata: Metadata = {
-  title: "Seguro Automóvel",
+  title: product.title,
 };
 
 export default function SeguroAutomovelPage() {
   return (
     <>
-      <PageBanner title="Seguro Automóvel" />
+      <PageBanner title={product.title} />
 
       <ProductIntro
         paragraphs={[
@@ -23,8 +26,8 @@ export default function SeguroAutomovelPage() {
           "Atendimento personalizado, garantia de qualidade e agilidade na prestação dos serviços, sabemos o quanto é importante que você, sua família e seu patrimônio estejam bem protegidos, faça uma consulta conosco!",
         ]}
         image={{
-          src: "/assets/imagens/pagina-automovel.jpg",
-          alt: "Seguro Automóvel",
+          src: product.cardImage,
+          alt: product.title,
         }}
         ctas={<WhatsAppButton>Entre em contato</WhatsAppButton>}
         phoneNote={siteConfig.phone.cellDisplay}

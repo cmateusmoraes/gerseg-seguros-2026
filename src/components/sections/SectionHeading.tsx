@@ -10,6 +10,8 @@ interface SectionHeadingProps {
   align?: "left" | "center";
   /** Usar em fundos escuros (linha 1 branca) */
   onDark?: boolean;
+  /** Régua dourada curta abaixo do título (acento editorial) */
+  withRule?: boolean;
   as?: "h1" | "h2";
   className?: string;
 }
@@ -24,6 +26,7 @@ export function SectionHeading({
   titleAccent,
   align = "center",
   onDark = false,
+  withRule = false,
   as: Tag = "h2",
   className,
 }: SectionHeadingProps) {
@@ -44,6 +47,18 @@ export function SectionHeading({
         {title}
         {titleAccent && <span className="block text-gold">{titleAccent}</span>}
       </Tag>
+      {withRule && (
+        <span
+          aria-hidden
+          className={cn(
+            "mt-5 flex items-center gap-1.5",
+            align === "center" && "justify-center"
+          )}
+        >
+          <span className="h-[3px] w-12 rounded-full bg-gold" />
+          <span className="h-[3px] w-3 rounded-full bg-gold/50" />
+        </span>
+      )}
     </div>
   );
 }

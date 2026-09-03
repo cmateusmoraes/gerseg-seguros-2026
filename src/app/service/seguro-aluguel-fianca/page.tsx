@@ -6,21 +6,28 @@ import { CheckList } from "@/components/sections/CheckList";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { siteConfig } from "@/lib/config";
+import { getProduct } from "@/lib/products";
+
+const product = getProduct("seguro-aluguel-fianca");
 
 export const metadata: Metadata = {
-  title: "Seguro Aluguel / Fiança",
+  title: product.title,
 };
 
 export default function AluguelFiancaPage() {
   return (
     <>
-      <PageBanner title="Seguro Aluguel / Fiança" />
+      <PageBanner title={product.title} />
 
       <ProductIntro
         paragraphs={[
           "Você não precisa se preocupar com fiador e caução, aluga o imóvel que quiser com agilidade e ainda conta com vários benefícios.",
           "São diversas opções de coberturas como pagamento de aluguel, encargos mensais da locação (IPTU, condomínio, água, luz, gás), danos ao imóvel, pintura, além de serviços emergenciais de reparos ao imóvel e descontos para você aproveitar.",
         ]}
+        image={{
+          src: product.cardImage,
+          alt: product.title,
+        }}
         video={{
           src: "https://www.youtube.com/embed/dwSfAdEmagY",
           title: "Seguro Aluguel / Fiança — Gerseg Seguros",

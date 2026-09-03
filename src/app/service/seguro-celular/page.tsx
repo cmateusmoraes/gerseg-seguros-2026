@@ -15,9 +15,12 @@ import { CoverageGrid } from "@/components/sections/CoverageGrid";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { ExternalButton } from "@/components/ui/ExternalButton";
 import { siteConfig } from "@/lib/config";
+import { getProduct } from "@/lib/products";
+
+const product = getProduct("seguro-celular");
 
 export const metadata: Metadata = {
-  title: "Seguro Celular",
+  title: product.title,
 };
 
 const coberturas = [
@@ -32,15 +35,15 @@ const coberturas = [
 export default function SeguroCelularPage() {
   return (
     <>
-      <PageBanner title="Seguro Celular" />
+      <PageBanner title={product.title} />
 
       <ProductIntro
         paragraphs={[
           "Tão importante quanto escolher o modelo do seu smartphone é garantir coberturas conforme sua rotina. Descubra o plano que mais combina com você e saia tranquilo de casa.",
         ]}
         image={{
-          src: "/assets/imagens/pagina-celular.jpg",
-          alt: "Seguro Celular",
+          src: product.cardImage,
+          alt: product.title,
         }}
         ctas={
           <>

@@ -1,16 +1,16 @@
 import Image from "next/image";
 
 const insurers = [
-  { name: "Porto Seguro", file: "porto-seguro.png" },
-  { name: "Azul Seguros", file: "azul-seguros.png" },
-  { name: "Tokio Marine", file: "tokio-marine.png" },
-  { name: "SulAmérica", file: "sulamerica.png" },
-  { name: "Suhai", file: "suhai.png" },
-  { name: "Sompo", file: "sompo.png" },
-  { name: "Mapfre", file: "mapfre.png" },
-  { name: "Allianz", file: "allianz.png" },
-  { name: "HDI", file: "hdi.png" },
-  { name: "Liberty Seguros", file: "liberty.png" },
+  { name: "Porto Seguro", file: "porto-seguro.webp" },
+  { name: "Azul Seguros", file: "azul-seguros.webp" },
+  { name: "Tokio Marine", file: "tokio-marine.webp" },
+  { name: "SulAmérica", file: "sulamerica.webp" },
+  { name: "Suhai", file: "suhai.webp" },
+  { name: "Sompo", file: "sompo.webp" },
+  { name: "Mapfre", file: "mapfre.webp" },
+  { name: "Allianz", file: "allianz.webp" },
+  { name: "HDI", file: "hdi.webp" },
+  { name: "Liberty Seguros", file: "liberty.webp" },
 ];
 
 /** Grid com os logos das 10 seguradoras parceiras. */

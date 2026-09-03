@@ -14,9 +14,12 @@ import { CoverageGrid } from "@/components/sections/CoverageGrid";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { ExternalButton } from "@/components/ui/ExternalButton";
 import { siteConfig } from "@/lib/config";
+import { getProduct } from "@/lib/products";
+
+const product = getProduct("seguro-notebook");
 
 export const metadata: Metadata = {
-  title: "Seguro Notebook",
+  title: product.title,
 };
 
 const coberturas = [
@@ -34,7 +37,7 @@ const coberturas = [
 export default function SeguroNotebookPage() {
   return (
     <>
-      <PageBanner title="Seguro Notebook" />
+      <PageBanner title={product.title} />
 
       <ProductIntro
         paragraphs={[
@@ -42,8 +45,8 @@ export default function SeguroNotebookPage() {
           "Para você, a proteção garante tranquilidade ao proteger as conquistas, pois todos sabemos como é difícil ficar sem seu equipamento nos momentos em que se precisa dele.",
         ]}
         image={{
-          src: "/assets/imagens/pagina-notebook.jpg",
-          alt: "Seguro Notebook",
+          src: product.cardImage,
+          alt: product.title,
         }}
         ctas={
           /* Link de afiliado Porto Seguro (código G5317J) — contratação online direta */
