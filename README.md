@@ -38,7 +38,7 @@ Push na branch `main` dispara `.github/workflows/deploy.yml`: instala dependênc
 | `FTP_SERVER` | Host do servidor FTP | `ftp.gersegseguros.com.br` |
 | `FTP_USERNAME` | Usuário FTP | `gerseg-deploy` |
 | `FTP_PASSWORD` | Senha FTP | — |
-| `FTP_SERVER_DIR` | Diretório remoto de destino (terminar com `/`) | `/public_html/` |
+| `FTP_SERVER_DIR` | Diretório remoto de destino | `/public_html/site2026/` |
 
 3. Faça push na `main` (ou rode o workflow manualmente em **Actions → Build & Deploy (FTP) → Run workflow**).
 

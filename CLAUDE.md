@@ -91,7 +91,7 @@ npm run build   # gera out/ (export estático) + typecheck — rodar antes de co
 
 - Repo GitHub: `cmateusmoraes/gerseg-seguros-2026` (este diretório `site/` é a raiz do repo)
 - Deploy: push na `main` → `.github/workflows/deploy.yml` → build → FTP (SamKirkland/FTP-Deploy-Action)
-- Secrets necessários (**ainda não cadastrados** — deploy falha de propósito por enquanto): `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_SERVER_DIR`. Instruções no `README.md`.
+- Secrets necessários: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_SERVER_DIR` (destino: `/public_html/site2026/`). Instruções no `README.md`.
 - `.env.example` documenta que o site não usa env em runtime.
 
 ## Convenções ao alterar
