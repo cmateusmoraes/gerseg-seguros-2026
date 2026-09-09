@@ -64,7 +64,7 @@ export function Header() {
       </div>
       <div
         className={cn(
-          "container-site flex items-center justify-between gap-6 transition-[height] duration-300",
+          "container-site flex items-center justify-between gap-3 transition-[height] duration-300 xl:gap-6",
           scrolled ? "h-[72px]" : "h-[88px]",
         )}
       >
@@ -80,14 +80,14 @@ export function Header() {
             width={300}
             height={80}
             priority
-            className="h-auto w-[165px] desk:w-[190px]"
+            className="h-auto w-[165px] desk:w-[150px] xl:w-[190px]"
           />
         </Link>
         <nav
-          className="hidden items-center gap-8 desk:flex"
+          className="hidden items-center gap-4 desk:flex xl:gap-8"
           aria-label="Navegação principal"
         >
-          <Link href="/#quem-somos" className="nav-link">
+          <Link href="/#quem-somos" className="nav-link whitespace-nowrap">
             Quem somos
           </Link>
           <div
@@ -103,9 +103,9 @@ export function Header() {
               onClick={() => setProductsOpen(!productsOpen)}
               aria-expanded={productsOpen}
               aria-controls="desktop-products"
-              className="nav-link flex items-center gap-2"
+              className="nav-link flex items-center gap-2 whitespace-nowrap"
             >
-              Produtos{" "}
+              Todos Produtos{" "}
               <ChevronDown
                 size={14}
                 className={cn(
@@ -141,16 +141,25 @@ export function Header() {
                   onClick={close}
                   className="mt-2 flex items-center justify-between bg-navy px-4 py-3 text-xs text-white"
                 >
-                  Todos os produtos{" "}
+                  Ver todos na página{" "}
                   <ArrowUpRight size={15} aria-hidden="true" />
                 </Link>
               </div>
             )}
           </div>
-          <Link href="/service/seguro-automovel/" className="nav-link">
+          <Link
+            href="/service/seguro-automovel/"
+            className="nav-link whitespace-nowrap"
+          >
             Seguro automóvel
           </Link>
-          <Link href="/#contato" className="nav-link">
+          <Link
+            href="/service/seguro-aluguel-fianca/"
+            className="nav-link whitespace-nowrap"
+          >
+            Seguro Aluguel/Fiança
+          </Link>
+          <Link href="/#contato" className="nav-link whitespace-nowrap">
             Contato
           </Link>
         </nav>
@@ -158,10 +167,11 @@ export function Header() {
           href={whatsappUrl()}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden min-h-11 items-center gap-3 rounded-btn bg-navy px-5 py-3 text-xs font-medium text-white transition-colors hover:bg-navy-hover desk:flex"
+          className="hidden min-h-11 shrink-0 items-center gap-2 rounded-btn bg-navy px-4 py-3 text-xs font-medium text-white transition-colors hover:bg-navy-hover desk:flex xl:gap-3 xl:px-5"
         >
           <WhatsAppIcon className="h-4 w-4" />
-          Faça uma cotação
+          <span className="xl:hidden">Cotação</span>
+          <span className="hidden xl:inline">Faça uma cotação</span>
           <ArrowUpRight size={16} aria-hidden="true" />
         </a>
         <button
@@ -192,6 +202,20 @@ export function Header() {
           >
             Quem somos
           </Link>
+          <Link
+            href="/service/seguro-automovel/"
+            onClick={close}
+            className="block border-b border-line py-4 text-sm"
+          >
+            Seguro automóvel
+          </Link>
+          <Link
+            href="/service/seguro-aluguel-fianca/"
+            onClick={close}
+            className="block border-b border-line py-4 text-sm"
+          >
+            Seguro Aluguel/Fiança
+          </Link>
           <button
             type="button"
             onClick={() => setProductsOpen(!productsOpen)}
@@ -199,7 +223,7 @@ export function Header() {
             aria-controls="mobile-products"
             className="flex w-full items-center justify-between border-b border-line py-4 text-sm"
           >
-            Produtos{" "}
+            Todos Produtos{" "}
             <ChevronDown
               size={16}
               className={cn(
@@ -225,7 +249,7 @@ export function Header() {
                 onClick={close}
                 className="block py-4 text-xs font-semibold"
               >
-                Todos os produtos →
+                Ver todos na página →
               </Link>
             </div>
           )}
