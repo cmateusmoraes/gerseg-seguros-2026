@@ -12,7 +12,6 @@ import {
   Mail,
   MapPin,
   Phone,
-  ShieldCheck,
 } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/lib/config";
 import { ProductExplorer } from "@/components/sections/ProductExplorer";
@@ -20,6 +19,7 @@ import { DifferenceAccordion } from "@/components/sections/DifferenceAccordion";
 import { InsurersGrid } from "@/components/sections/InsurersGrid";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { HumanNote } from "@/components/sections/HumanNote";
 
 export default function HomePage() {
   return (
@@ -66,15 +66,8 @@ export default function HomePage() {
                 />
               </Link>
             </div>
-            <div className="hero-enter mt-8 flex items-center desk:mt-12 gap-3 border-t border-white/15 pt-6 text-xs text-white/70 [animation-delay:400ms]">
-              <ShieldCheck
-                size={22}
-                strokeWidth={1.3}
-                className="text-gold"
-                aria-hidden="true"
-              />{" "}
-              Corretores com Susep <span className="mx-1 text-white/30">/</span>{" "}
-              São Paulo, SP
+            <div className="hero-enter mt-8 border-t border-white/15 pt-6 desk:mt-12 [animation-delay:400ms]">
+              <HumanNote onDark>Você conta sua história. A gente escuta.</HumanNote>
             </div>
           </div>
           <div className="hero-photo relative min-h-[370px] desk:absolute desk:inset-y-0 desk:-right-[6%] desk:w-[64%]">
@@ -184,7 +177,7 @@ export default function HomePage() {
             data-reveal
             className="mt-10 flex flex-col justify-between gap-5 border-t border-line pt-7 sm:flex-row sm:items-center"
           >
-            <p className="font-serif text-xl">Como posso te ajudar?</p>
+            <HumanNote>Em dúvida? A gente explica cada opção.</HumanNote>
             <WhatsAppButton
               variant="outline"
               className="self-start sm:self-auto"
@@ -316,8 +309,8 @@ export default function HomePage() {
                 <em className="text-gold">te ajudar?</em>
               </h2>
               <p className="mt-6 max-w-md text-sm leading-7 text-white/70">
-                Prefere ser atendido pelo WhatsApp? Instagram? Telefone? Aqui o
-                cliente escolhe.
+                Por mensagem ou por telefone, a conversa é com quem quer conhecer
+                você. Conte com a gente para entender cada opção e tirar suas dúvidas.
               </p>
             </div>
             <a

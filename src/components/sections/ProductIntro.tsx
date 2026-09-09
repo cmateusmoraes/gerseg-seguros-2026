@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { YouTubeEmbed } from "@/components/sections/YouTubeEmbed";
+import { HumanNote } from "@/components/sections/HumanNote";
 
 interface ProductIntroProps {
   /** Título da seção (default: "Conheça o Produto") */
@@ -67,11 +68,12 @@ export function ProductIntro({
                 </p>
               ))}
             </div>
-            {ctas && <div className="mt-8 flex flex-wrap gap-4">{ctas}</div>}
+            <HumanNote className="mt-6">Seu seguro, explicado em uma conversa.</HumanNote>
+            {ctas && <div className="mt-6 flex flex-wrap gap-4">{ctas}</div>}
             {phoneNote && (
-              <p className="mt-5 text-sm font-semibold text-navy">
-                {phoneNote}
-              </p>
+              <a href={`tel:+55${phoneNote.replace(/\D/g, "")}`} className="mt-3 inline-flex min-h-11 flex-wrap items-center gap-x-2 text-sm text-muted underline-offset-4 hover:text-navy hover:underline">
+                Prefere conversar por telefone? <span className="font-medium text-navy">{phoneNote}</span>
+              </a>
             )}
           </div>
         </div>

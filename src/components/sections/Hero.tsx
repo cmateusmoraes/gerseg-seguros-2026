@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
+import { HumanNote } from "@/components/sections/HumanNote";
 
 interface HeroBullet {
   icon: LucideIcon;
@@ -104,6 +105,7 @@ export function Hero({
             {paragraph}
           </p>
           <div className="mt-8">{cta}</div>
+          <HumanNote className="mt-6">Gente que escuta. Seguro que faz sentido.</HumanNote>
         </div>
 
         <div className="relative">

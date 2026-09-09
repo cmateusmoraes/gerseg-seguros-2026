@@ -1,95 +1,56 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Clock3, Phone } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/lib/config";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { HumanNote } from "@/components/sections/HumanNote";
 
 interface CtaDarkProps {
-  /** Linha 1 — branca */
   title: string;
-  /** Linha 2 — dourada */
   titleAccent?: string;
-  /** Número E.164 do WhatsApp (default: canônico) */
+  /** Preserve each product's contact, including the dedicated Bike number. */
   number?: string;
-  /** Número formatado exibido no card */
   numberDisplay?: string;
   subtext?: string;
   description?: string;
 }
 
-/**
- * CTA final de página: fundo navy, headline 2 cores à esquerda,
- * card de telefone clicável à direita (referência: mockup Bike).
- */
+/** One continuous surface brings the invitation and contact options together. */
 export function CtaDark({
   title,
   titleAccent,
   number = siteConfig.whatsapp.number,
   numberDisplay = siteConfig.whatsapp.display,
-  subtext = "Atendimento pelo WhatsApp",
-  description = "Converse com um especialista e encontre a proteção ideal para o que é importante para você.",
+  subtext = "Pode perguntar. A gente explica.",
+  description = "Conte o que você precisa. A gente ouve, explica as opções e ajuda você a escolher com tranquilidade.",
 }: CtaDarkProps) {
   return (
-    <section className="relative overflow-hidden bg-navy py-14 desk:py-20">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-32 -top-40 h-96 w-96 rounded-full border border-white/[0.06]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-20 -top-28 h-64 w-64 rounded-full bg-gold/[0.08] blur-3xl"
-      />
-
-      <div className="container-site relative">
-        <div
-          data-reveal
-          className="relative overflow-hidden border-y border-white/20 py-9 desk:py-11"
-        >
-          <div
-            aria-hidden
-            className="absolute inset-y-0 right-0 hidden w-[38%] bg-gradient-to-l from-gold/[0.09] to-transparent desk:block"
-          />
-
-          <div className="relative grid items-center gap-8 desk:grid-cols-[minmax(0,1fr)_auto] desk:gap-14">
-            <div className="max-w-2xl text-center desk:text-left">
-              <span className="mb-5 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
-                <span className="h-px w-9 bg-gold" aria-hidden />
-                Atendimento personalizado
-              </span>
-              <h2 className="font-serif text-3xl font-medium leading-[1.12] text-white desk:text-[2.75rem]">
-                {title}
-                {titleAccent && (
-                  <span className="block text-gold">{titleAccent}</span>
-                )}
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/70 desk:mx-0 desk:text-base">
-                {description}
-              </p>
-            </div>
-
-            <a
-              href={whatsappUrl(number)}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Conversar com a Gerseg pelo WhatsApp no número ${numberDisplay}`}
-              className="group mx-auto flex w-full max-w-sm items-center gap-4 rounded-card bg-gold px-5 py-4 text-left text-navy shadow-[0_18px_35px_-20px_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-1 hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-navy desk:mx-0 desk:min-w-[340px] desk:px-6 desk:py-5"
-            >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-navy text-white transition-transform duration-300 group-hover:scale-105">
-                <WhatsAppIcon className="h-6 w-6" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-xs font-semibold uppercase tracking-[0.12em] text-navy/65">
-                  Conversar no WhatsApp
-                </span>
-                <span className="mt-0.5 block font-serif text-xl font-bold desk:text-2xl">
-                  {numberDisplay}
-                </span>
-                <span className="block text-xs text-navy/65">{subtext}</span>
-              </span>
-              <ArrowUpRight
-                className="h-5 w-5 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                aria-hidden="true"
-              />
+    <section className="relative isolate overflow-hidden bg-navy text-white" aria-label="Converse com a Gerseg">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-72 -z-10 h-[650px] w-[650px] rounded-full border border-gold/15 after:absolute after:inset-14 after:rounded-full after:border after:border-gold/10" />
+      <div className="container-site py-14 desk:py-20">
+        <div data-reveal className="grid items-center gap-10 desk:grid-cols-[1.15fr_0.85fr] desk:gap-16">
+          <div className="max-w-2xl">
+            <HumanNote onDark>De pessoa pra pessoa.</HumanNote>
+            <h2 className="mt-7 font-serif text-4xl font-medium leading-[1.12] tracking-[-0.035em] desk:text-5xl">
+              {title}
+              {titleAccent && <span className="mt-1 block font-normal italic text-gold">{titleAccent}</span>}
+            </h2>
+            <p className="mt-5 max-w-[440px] text-sm leading-7 text-white/75">{description}</p>
+          </div>
+          <div className="border-t border-white/20 pt-8 desk:border-l desk:border-t-0 desk:py-2 desk:pl-14">
+            <p className="font-serif text-2xl font-medium">Uma conversa faz a diferença.</p>
+            <p className="mt-2 text-sm leading-6 text-white/70">{subtext}</p>
+            <a href={whatsappUrl(number)} target="_blank" rel="noopener noreferrer" aria-label={`Conversar com a Gerseg pelo WhatsApp no número ${numberDisplay}`} className="group mt-6 inline-flex min-h-14 w-full items-center justify-between gap-3 rounded-btn bg-gold px-5 py-4 text-sm font-medium text-navy transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105">
+              <span className="flex items-center gap-3"><WhatsAppIcon className="h-5 w-5 shrink-0" />Conversar no WhatsApp</span>
+              <ArrowUpRight size={19} className="shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+            </a>
+            <a href={`tel:+${number}`} className="mt-4 flex min-h-11 flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/80 underline-offset-4 hover:text-white hover:underline">
+              <Phone size={15} className="mr-1 shrink-0 text-gold" aria-hidden="true" />
+              <span>Prefere ligar?</span><span className="whitespace-nowrap font-medium text-white">{numberDisplay}</span>
             </a>
           </div>
+        </div>
+        <div className="mt-10 flex flex-col justify-between gap-3 border-t border-white/15 pt-5 text-xs leading-6 text-white/65 sm:flex-row desk:mt-12">
+          <p>Atendimento próximo, do primeiro contato em diante.</p>
+          <p className="flex items-center gap-2"><Clock3 size={14} className="shrink-0" aria-hidden="true" />{siteConfig.hours}</p>
         </div>
       </div>
     </section>

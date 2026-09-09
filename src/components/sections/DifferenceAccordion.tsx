@@ -13,7 +13,7 @@ const items = [
   {
     icon: Headset,
     title: "Atendimento diferenciado",
-    text: "Conhecemos nossos clientes para apresentar soluções ideais. De pessoa para pessoa.",
+    text: "A gente conhece cada cliente, ouve o que ele precisa e explica as opções. De pessoa pra pessoa, com espaço para conversar e tirar dúvidas.",
   },
   {
     icon: LifeBuoy,
