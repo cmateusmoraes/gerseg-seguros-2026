@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import { siteConfig } from "@/lib/config";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -7,17 +7,27 @@ import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { Motion } from "@/components/layout/Motion";
 import "./globals.css";
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["500", "700"],
-  style: ["normal", "italic"],
+const playfair = localFont({
+  src: [
+    {
+      path: "./fonts/playfair-display-latin.woff2",
+      weight: "400 900",
+      style: "normal",
+    },
+    {
+      path: "./fonts/playfair-display-italic-latin.woff2",
+      weight: "400 900",
+      style: "italic",
+    },
+  ],
   variable: "--font-playfair",
   display: "swap",
 });
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+const inter = localFont({
+  src: "./fonts/inter-latin.woff2",
+  weight: "100 900",
+  style: "normal",
   variable: "--font-inter",
   display: "swap",
 });

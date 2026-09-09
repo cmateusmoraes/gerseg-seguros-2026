@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "images:generate": "node scripts/generate-responsive-images.mjs",
     "lint": "next lint"
   },
   "dependencies": {

@@ -1,0 +1,42 @@
+{
+  "/assets/imagens/home-hero-automovel.webp": {
+    "width": 1448,
+    "variants": [480, 768, 1024, 1280]
+  },
+  "/assets/imagens/quem-somos.webp": {
+    "width": 1536,
+    "variants": [480, 768, 1024, 1280]
+  },
+  "/assets/imagens/card-seguro-automovel-v3.webp": {
+    "width": 1200,
+    "variants": [480, 768, 960]
+  },
+  "/assets/imagens/card-seguro-aluguel-v2.webp": {
+    "width": 1200,
+    "variants": [480, 768, 960]
+  },
+  "/assets/imagens/card-capitalizacao-v2.webp": {
+    "width": 1200,
+    "variants": [480, 768, 960]
+  },
+  "/assets/imagens/card-seguro-incendio-v2.webp": {
+    "width": 1200,
+    "variants": [480, 768, 960]
+  },
+  "/assets/imagens/card-seguro-bike-v2.webp": {
+    "width": 1200,
+    "variants": [480, 768, 960]
+  },
+  "/assets/imagens/card-plano-saude-pet-v3.webp": {
+    "width": 1200,
+    "variants": [480, 768, 960]
+  },
+  "/assets/imagens/card-seguro-celular-v2.webp": {
+    "width": 1200,
+    "variants": [480, 768, 960]
+  },
+  "/assets/imagens/card-seguro-notebook-v4.webp": {
+    "width": 1200,
+    "variants": [480, 768, 960]
+  }
+}

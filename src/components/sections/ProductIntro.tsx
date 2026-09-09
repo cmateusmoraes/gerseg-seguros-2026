@@ -79,7 +79,11 @@ export function ProductIntro({
         </div>
         {image && video && (
           <div className="mx-auto mt-12 max-w-4xl">
-            <YouTubeEmbed src={video.src} title={video.title} />
+            <YouTubeEmbed
+              src={video.src}
+              title={video.title}
+              posterSrc={image.src}
+            />
           </div>
         )}
       </div>
