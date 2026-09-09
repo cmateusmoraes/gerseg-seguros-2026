@@ -151,7 +151,7 @@ export function Header() {
             href="/service/seguro-automovel/"
             className="nav-link whitespace-nowrap"
           >
-            Seguro automóvel
+            Seguro Automóvel
           </Link>
           <Link
             href="/service/seguro-aluguel-fianca/"
@@ -207,7 +207,7 @@ export function Header() {
             onClick={close}
             className="block border-b border-line py-4 text-sm"
           >
-            Seguro automóvel
+            Seguro Automóvel
           </Link>
           <Link
             href="/service/seguro-aluguel-fianca/"
