@@ -1,241 +1,252 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, Facebook, Instagram, Mail, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/lib/config";
 import { products, productUrl } from "@/lib/products";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
-/** Produtos em destaque: links diretos no menu principal */
-const featuredProducts = [
-  { label: "Seguro Automóvel", slug: "seguro-automovel" },
-  { label: "Seguro Fiança", slug: "seguro-aluguel-fianca" },
-];
-
-/** Demais produtos: ficam no dropdown "Outros Produtos" */
-const otherProducts = products.filter(
-  (p) => !featuredProducts.some((f) => f.slug === p.slug)
-);
-
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
-
-  const closeMobile = () => {
+  const [productsOpen, setProductsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const header = useRef<HTMLElement>(null);
+  const productToggle = useRef<HTMLButtonElement>(null);
+  const mobileToggle = useRef<HTMLButtonElement>(null);
+  const close = () => {
     setMobileOpen(false);
-    setMobileProductsOpen(false);
+    setProductsOpen(false);
   };
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onPointer = (event: PointerEvent) => {
+      if (!header.current?.contains(event.target as Node)) close();
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("pointerdown", onPointer);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("pointerdown", onPointer);
+    };
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 w-full shadow-sm">
-      {/* Top bar */}
-      <div className="bg-navy text-white">
-        <div className="container-site flex h-9 items-center justify-between text-xs">
+    <header
+      ref={header}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          if (mobileOpen) mobileToggle.current?.focus();
+          else if (productsOpen) productToggle.current?.focus();
+          close();
+        }
+      }}
+      className={cn(
+        "sticky top-0 z-40 border-b border-navy/10 bg-surface/95 backdrop-blur-xl transition-shadow duration-300",
+        scrolled && "shadow-[0_4px_30px_-15px_rgba(0,36,64,0.25)]",
+      )}
+    >
+      <div className="border-b border-navy/10">
+        <div className="container-site flex h-8 items-center justify-between gap-4 text-[10px] text-muted">
+          <span>Experiência e confiança desde 1985.</span>
           <a
             href={`mailto:${siteConfig.email}`}
-            className="flex items-center gap-1.5 transition-colors hover:text-gold"
+            className="hidden transition-colors hover:text-navy sm:block"
           >
-            <Mail className="h-3.5 w-3.5" aria-hidden="true" />
-            <span className="hidden sm:inline">{siteConfig.email}</span>
-            <span className="sm:hidden">E-mail</span>
+            {siteConfig.email}
           </a>
-          <div className="flex items-center gap-4">
-            <span className="hidden text-white/70 desk:inline">
-              Fique conectado:
-            </span>
-            <a
-              href={siteConfig.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram da Gerseg Seguros"
-              className="transition-colors hover:text-gold"
-            >
-              <Instagram className="h-4 w-4" />
-            </a>
-            <a
-              href={siteConfig.social.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook da Gerseg Seguros"
-              className="transition-colors hover:text-gold"
-            >
-              <Facebook className="h-4 w-4" />
-            </a>
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 transition-colors hover:text-gold"
-            >
-              <WhatsAppIcon className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">WhatsApp</span>
-            </a>
-          </div>
+          <span className="sm:hidden">São Paulo, SP</span>
         </div>
       </div>
-
-      {/* Main bar */}
-      <div className="border-b border-line bg-white">
-        <div className="container-site flex h-20 items-center justify-between gap-6">
-          {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center" onClick={closeMobile}>
-            <Image
-              src="/assets/logo/logo-gerseg-azul.webp"
-              alt="Gerseg Seguros"
-              width={300}
-              height={80}
-              priority
-              className="h-12 w-auto xl:h-16"
-            />
-          </Link>
-
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-4 desk:flex xl:gap-7" aria-label="Navegação principal">
-            <Link
-              href="/#quem-somos"
-              className="whitespace-nowrap text-sm font-medium transition-colors hover:text-gold"
-            >
-              Quem Somos
-            </Link>
-
-            {featuredProducts.map((f) => (
-              <Link
-                key={f.slug}
-                href={productUrl(f.slug)}
-                className="whitespace-nowrap text-sm font-medium transition-colors hover:text-gold"
-              >
-                {f.label}
-              </Link>
-            ))}
-
-            {/* Outros Produtos dropdown (hover/focus) */}
-            <div className="group relative">
-              <Link
-                href="/#produtos"
-                className="flex items-center gap-1 whitespace-nowrap py-6 text-sm font-medium transition-colors hover:text-gold"
-              >
-                Outros Produtos
-                <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
-              </Link>
-              <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 rounded-faq border border-line bg-white py-2 opacity-0 shadow-xl transition-all duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                {otherProducts.map((p) => (
-                  <Link
-                    key={p.slug}
-                    href={productUrl(p.slug)}
-                    className="block px-5 py-2.5 text-sm transition-colors hover:bg-surface hover:text-gold"
-                  >
-                    {p.title}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <Link
-              href="/#contato"
-              className="whitespace-nowrap text-sm font-medium transition-colors hover:text-gold"
-            >
-              Contato
-            </Link>
-
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 whitespace-nowrap rounded-btn bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-hover"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              <span className="xl:hidden">WhatsApp</span>
-              <span className="hidden xl:inline">Como posso te ajudar?</span>
-            </a>
-          </nav>
-
-          {/* Mobile toggle */}
-          <button
-            type="button"
-            className="desk:hidden"
-            aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
-            onClick={() => setMobileOpen((v) => !v)}
-          >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-
-        {/* Mobile menu */}
-        <div
-          className={cn(
-            "overflow-hidden border-t border-line bg-white transition-all duration-200 desk:hidden",
-            mobileOpen ? "max-h-[640px]" : "max-h-0 border-t-0"
-          )}
+      <div
+        className={cn(
+          "container-site flex items-center justify-between gap-6 transition-[height] duration-300",
+          scrolled ? "h-[72px]" : "h-[88px]",
+        )}
+      >
+        <Link
+          href="/"
+          onClick={close}
+          aria-label="Gerseg Seguros — página inicial"
+          className="shrink-0"
         >
-          <nav className="container-site flex flex-col py-4" aria-label="Navegação mobile">
-            <Link
-              href="/#quem-somos"
-              onClick={closeMobile}
-              className="border-b border-line py-3 text-sm font-medium"
-            >
-              Quem Somos
-            </Link>
-            {featuredProducts.map((f) => (
-              <Link
-                key={f.slug}
-                href={productUrl(f.slug)}
-                onClick={closeMobile}
-                className="border-b border-line py-3 text-sm font-medium"
-              >
-                {f.label}
-              </Link>
-            ))}
+          <Image
+            src="/assets/logo/logo-gerseg-azul.webp"
+            alt="Gerseg Seguros"
+            width={300}
+            height={80}
+            priority
+            className="h-auto w-[165px] desk:w-[190px]"
+          />
+        </Link>
+        <nav
+          className="hidden items-center gap-8 desk:flex"
+          aria-label="Navegação principal"
+        >
+          <Link href="/#quem-somos" className="nav-link">
+            Quem somos
+          </Link>
+          <div
+            className="relative"
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget))
+                setProductsOpen(false);
+            }}
+          >
             <button
+              ref={productToggle}
               type="button"
-              className="flex items-center justify-between border-b border-line py-3 text-sm font-medium"
-              aria-expanded={mobileProductsOpen}
-              onClick={() => setMobileProductsOpen((v) => !v)}
+              onClick={() => setProductsOpen(!productsOpen)}
+              aria-expanded={productsOpen}
+              aria-controls="desktop-products"
+              className="nav-link flex items-center gap-2"
             >
-              Outros Produtos
+              Produtos{" "}
               <ChevronDown
+                size={14}
                 className={cn(
-                  "h-4 w-4 transition-transform",
-                  mobileProductsOpen && "rotate-180"
+                  "transition-transform",
+                  productsOpen && "rotate-180",
                 )}
+                aria-hidden="true"
               />
             </button>
-            {mobileProductsOpen && (
-              <div className="flex flex-col bg-surface">
-                {otherProducts.map((p) => (
+            {productsOpen && (
+              <div
+                id="desktop-products"
+                className="absolute left-1/2 top-full mt-5 w-[350px] -translate-x-1/2 border border-line bg-surface p-3 shadow-xl"
+              >
+                {products.map((p, i) => (
                   <Link
                     key={p.slug}
                     href={productUrl(p.slug)}
-                    onClick={closeMobile}
-                    className="border-b border-line px-4 py-3 text-sm text-muted"
+                    onClick={close}
+                    className="group flex items-center gap-4 border-b border-line px-3 py-3.5 text-xs last:border-0 hover:bg-[#eeece5]"
                   >
-                    {p.title}
+                    <span className="text-[10px] text-muted">0{i + 1}</span>
+                    <span className="flex-1">{p.title}</span>
+                    <ArrowUpRight
+                      size={14}
+                      className="text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
                   </Link>
                 ))}
+                <Link
+                  href="/#produtos"
+                  onClick={close}
+                  className="mt-2 flex items-center justify-between bg-navy px-4 py-3 text-xs text-white"
+                >
+                  Todos os produtos{" "}
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </Link>
               </div>
             )}
-            <Link
-              href="/#contato"
-              onClick={closeMobile}
-              className="border-b border-line py-3 text-sm font-medium"
-            >
-              Contato
-            </Link>
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 flex items-center justify-center gap-2 rounded-btn bg-navy px-5 py-3 text-sm font-semibold text-white"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              Como posso te ajudar?
-            </a>
-          </nav>
-        </div>
+          </div>
+          <Link href="/service/seguro-automovel/" className="nav-link">
+            Seguro automóvel
+          </Link>
+          <Link href="/#contato" className="nav-link">
+            Contato
+          </Link>
+        </nav>
+        <a
+          href={whatsappUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden min-h-11 items-center gap-3 rounded-btn bg-navy px-5 py-3 text-xs font-medium text-white transition-colors hover:bg-navy-hover desk:flex"
+        >
+          <WhatsAppIcon className="h-4 w-4" />
+          Faça uma cotação
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+        <button
+          ref={mobileToggle}
+          type="button"
+          aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => {
+            setMobileOpen(!mobileOpen);
+            setProductsOpen(false);
+          }}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-navy/20 desk:hidden"
+        >
+          {mobileOpen ? <X size={21} /> : <Menu size={21} />}
+        </button>
       </div>
+      {mobileOpen && (
+        <nav
+          id="mobile-navigation"
+          aria-label="Navegação mobile"
+          className="max-h-[calc(100dvh-122px)] overflow-y-auto border-t border-line bg-surface px-[5%] pb-6 desk:hidden"
+        >
+          <Link
+            href="/#quem-somos"
+            onClick={close}
+            className="block border-b border-line py-4 text-sm"
+          >
+            Quem somos
+          </Link>
+          <button
+            type="button"
+            onClick={() => setProductsOpen(!productsOpen)}
+            aria-expanded={productsOpen}
+            aria-controls="mobile-products"
+            className="flex w-full items-center justify-between border-b border-line py-4 text-sm"
+          >
+            Produtos{" "}
+            <ChevronDown
+              size={16}
+              className={cn(
+                "transition-transform",
+                productsOpen && "rotate-180",
+              )}
+            />
+          </button>
+          {productsOpen && (
+            <div id="mobile-products" className="bg-[#eeece5] px-4">
+              {products.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={productUrl(p.slug)}
+                  onClick={close}
+                  className="flex min-h-11 items-center border-b border-navy/10 py-3 text-xs last:border-0"
+                >
+                  {p.title}
+                </Link>
+              ))}
+              <Link
+                href="/#produtos"
+                onClick={close}
+                className="block py-4 text-xs font-semibold"
+              >
+                Todos os produtos →
+              </Link>
+            </div>
+          )}
+          <Link
+            href="/#contato"
+            onClick={close}
+            className="block border-b border-line py-4 text-sm"
+          >
+            Contato
+          </Link>
+          <a
+            href={whatsappUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 flex min-h-12 items-center justify-center gap-3 rounded-btn bg-navy px-5 py-3 text-sm text-white"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            Faça uma cotação
+          </a>
+        </nav>
+      )}
     </header>
   );
 }

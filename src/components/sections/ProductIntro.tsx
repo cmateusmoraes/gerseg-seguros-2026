@@ -33,32 +33,45 @@ export function ProductIntro({
   return (
     <section className="bg-white">
       <div className="container-site section-pad">
-        <div className="grid items-center gap-10 desk:grid-cols-2 desk:gap-14">
+        <div
+          data-reveal
+          className="grid items-center gap-10 desk:grid-cols-2 desk:gap-20"
+        >
           <div className={reverse ? "desk:order-2" : undefined}>
             {image ? (
-            <Image
-              src={image.src}
-              alt={image.alt}
-              width={760}
-              height={507}
-              className="aspect-[3/2] w-full rounded-img border border-line object-cover"
-            />
+              <Image
+                src={image.src}
+                alt={image.alt}
+                width={760}
+                height={507}
+                sizes="(min-width: 980px) 45vw, 90vw"
+                className="aspect-[4/3] w-full rounded-[4px] object-cover"
+              />
             ) : video ? (
               <YouTubeEmbed src={video.src} title={video.title} />
             ) : null}
           </div>
           <div className={reverse ? "desk:order-1" : undefined}>
-            <SectionHeading title={title} titleAccent={titleAccent} align="left" />
+            <SectionHeading
+              title={title}
+              titleAccent={titleAccent}
+              align="left"
+            />
             <div className="mt-6 space-y-4">
               {paragraphs.map((p) => (
-                <p key={p.slice(0, 40)} className="text-base leading-relaxed text-muted">
+                <p
+                  key={p.slice(0, 40)}
+                  className="text-base leading-relaxed text-muted"
+                >
                   {p}
                 </p>
               ))}
             </div>
             {ctas && <div className="mt-8 flex flex-wrap gap-4">{ctas}</div>}
             {phoneNote && (
-              <p className="mt-5 text-sm font-semibold text-navy">{phoneNote}</p>
+              <p className="mt-5 text-sm font-semibold text-navy">
+                {phoneNote}
+              </p>
             )}
           </div>
         </div>

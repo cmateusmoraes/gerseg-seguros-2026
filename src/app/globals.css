@@ -2,17 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---------------------------------------------------------------------------
-   Design tokens — extraídos do mockup canônico (conteudo/08-seguro-bike.md)
---------------------------------------------------------------------------- */
+/* Gerseg: brand navy, warm paper, restrained gold and editorial typography. */
 :root {
   --color-navy: #002440;
   --color-navy-hover: #0a3a5e;
   --color-azure: #1e6ca8;
   --color-gold: #c7a77b;
-  --color-background: #fbfaf8;
+  --color-background: #f7f6f2;
   --color-white: #ffffff;
-  --color-border: #e7e5e0;
+  --color-border: #deded5;
   --color-text-muted: #5a6470;
 }
 
@@ -28,16 +26,130 @@
   ::selection {
     @apply bg-gold/30;
   }
+
+  :focus-visible {
+    outline: 2px solid #a68250;
+    outline-offset: 5px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
 }
 
 @layer components {
-  /* Container central: max 1200px, largura 90% */
   .container-site {
-    @apply mx-auto w-[90%] max-w-[1200px];
+    @apply mx-auto w-[90%] max-w-[1280px];
   }
 
   /* Padding vertical padrão das seções (90px desktop / reduzido no mobile) */
   .section-pad {
-    @apply py-16 desk:py-[90px];
+    @apply py-16 desk:py-[110px];
+  }
+
+  .eyebrow {
+    @apply flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.17em];
+  }
+
+  .section-number {
+    @apply inline-flex h-7 w-7 items-center justify-center rounded-full border border-navy/20 text-[9px] tracking-normal;
+  }
+
+  .display-heading {
+    @apply font-serif text-[clamp(2.5rem,4.3vw,4rem)] font-medium leading-[1.1] tracking-[-0.035em];
+  }
+
+  .display-heading :where(em) {
+    @apply font-normal text-[#8d724e];
+  }
+
+  .nav-link {
+    @apply relative py-3 text-xs font-medium after:absolute after:bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-navy after:transition-transform hover:after:scale-x-100 focus-visible:after:scale-x-100;
+  }
+
+  .scene-link {
+    @apply z-20 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/40 bg-navy/45 px-3 py-2.5 text-white shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:bg-navy focus-visible:border-gold;
+  }
+
+  .scene-link span {
+    @apply text-[10px] font-medium;
+  }
+
+  .contact-link {
+    @apply flex flex-col py-8;
+  }
+
+  .skip-link {
+    @apply fixed left-4 top-4 z-[100] -translate-y-24 rounded-btn bg-gold px-5 py-3 text-sm text-navy transition-transform focus:translate-y-0;
+  }
+}
+
+@keyframes entrance {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photo-entrance {
+  from {
+    opacity: 0;
+    transform: scale(1.035);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orbit-entrance {
+  from {
+    opacity: 0;
+    transform: scale(0.85) rotate(-15deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-enter {
+    animation: entrance 0.8s cubic-bezier(0.2, 0.65, 0.3, 1) both;
+  }
+  .hero-photo > img {
+    animation: photo-entrance 1.6s ease-out both;
+  }
+  .hero-orbit {
+    animation: orbit-entrance 1.8s ease-out both;
+  }
+  .product-tile {
+    animation: entrance 0.55s cubic-bezier(0.2, 0.65, 0.3, 1) both;
+  }
+  .product-tile:nth-child(2) {
+    animation-delay: 50ms;
+  }
+  .product-tile:nth-child(3) {
+    animation-delay: 100ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -8,9 +8,16 @@ interface PageBannerProps {
 }
 
 /** Banner de título das páginas internas + breadcrumb "Home › Serviços › …". */
-export function PageBanner({ title, trail = [{ label: "Serviços" }] }: PageBannerProps) {
+export function PageBanner({
+  title,
+  trail = [{ label: "Serviços" }],
+}: PageBannerProps) {
   return (
-    <section className="bg-navy text-white">
+    <section className="relative isolate overflow-hidden bg-navy text-white">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-10 -top-40 -z-10 h-[580px] w-[580px] rounded-full border border-gold/25 after:absolute after:inset-12 after:rounded-full after:border after:border-gold/15"
+      />
       <div className="container-site py-14 desk:py-20">
         <nav aria-label="Breadcrumb" className="mb-4">
           <ol className="flex flex-wrap items-center gap-1.5 text-xs text-white/60">
@@ -23,7 +30,10 @@ export function PageBanner({ title, trail = [{ label: "Serviços" }] }: PageBann
               <li key={item.label} className="flex items-center gap-1.5">
                 <ChevronRight className="h-3 w-3" aria-hidden="true" />
                 {item.href ? (
-                  <Link href={item.href} className="transition-colors hover:text-gold">
+                  <Link
+                    href={item.href}
+                    className="transition-colors hover:text-gold"
+                  >
                     {item.label}
                   </Link>
                 ) : (
@@ -39,7 +49,7 @@ export function PageBanner({ title, trail = [{ label: "Serviços" }] }: PageBann
             </li>
           </ol>
         </nav>
-        <h1 className="font-serif text-4xl font-medium leading-tight desk:text-5xl">
+        <h1 className="hero-enter max-w-4xl font-serif text-4xl font-medium leading-tight tracking-[-0.035em] desk:text-6xl">
           {title}
         </h1>
       </div>

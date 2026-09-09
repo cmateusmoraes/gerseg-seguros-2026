@@ -39,7 +39,10 @@ export function CtaDark({
       />
 
       <div className="container-site relative">
-        <div className="relative overflow-hidden rounded-[28px] border border-white/15 bg-white/[0.055] px-6 py-9 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.8)] backdrop-blur-sm desk:px-12 desk:py-11">
+        <div
+          data-reveal
+          className="relative overflow-hidden border-y border-white/20 py-9 desk:py-11"
+        >
           <div
             aria-hidden
             className="absolute inset-y-0 right-0 hidden w-[38%] bg-gradient-to-l from-gold/[0.09] to-transparent desk:block"

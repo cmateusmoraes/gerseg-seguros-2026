@@ -15,15 +15,16 @@ O material de referência original (conteúdo de cada página, inventário de as
 - Fontes via `next/font/google`: **Playfair Display** (500/700, headlines serif) + **Inter** (300–600, body) — nunca usar `<link>` no head.
 - CSS: só Tailwind (utility-first). Sem CSS externo; tokens em `globals.css` + `tailwind.config.ts`.
 
-## Design system (canônico — veio do mockup da página Bike)
+## Design system (redesign editorial — setembro/2026)
 
-A página `/service/seguro-bike/` é a **referência visual do site inteiro** (`../conteudo/08-seguro-bike.md` + `../assets/screenshots/08-seguro-bike-mockup.jpg`).
+A home em `src/app/page.tsx` é a referência visual atual: fotografia ampla, composição editorial, seções numeradas, títulos com itálico e catálogo filtrável. O mockup Bike continua sendo referência de conteúdo da página Bike; seu layout original foi sucedido pelo redesign solicitado pelo Mateus.
 
-- Cores (mapeadas no Tailwind): `navy` #0d1b3d (primária), `navy-hover` #13295f, `gold` #b59672 (accent de headlines), `surface` #f8f8f8 (fundo), `line` #ececec (bordas), `muted` #666
-- Headlines em duas cores: linha 1 navy (ou branca em fundo escuro), linha 2 dourada → componente `SectionHeading`
-- Border-radius (classes Tailwind customizadas): `rounded-card` 18px, `rounded-faq` 12px, `rounded-btn` 10px, `rounded-img` 20px
+- Cores (mapeadas no Tailwind): `navy` #002440 (primária), `navy-hover` #0a3a5e, `gold` #c7a77b, `surface` #f7f6f2 (papel), `line` #deded5, `muted` #5a6470. Seções alternadas usam #eeece5; itálicos em fundo claro usam #8d724e para melhor contraste.
+- Headlines em Playfair Display, com itálico nos destaques e tracking compacto → `SectionHeading` e `.display-heading`.
+- Border-radius: botões e cartões fotográficos 4px; filtros e marcadores circulares; foto institucional com topo em arco. Componentes de cobertura e FAQ preservam seus raios específicos.
 - Hover de cards: `hover:-translate-y-[5px]` sutil
-- Container: `.container-site` (max 1200px, largura 90%); seções: `.section-pad` (90px vertical no desktop)
+- Container: `.container-site` (max 1280px, largura 90%); seções: `.section-pad` (110px vertical no desktop, 64px no mobile).
+- Movimento: `Motion` para entradas na rolagem e CSS para hero/hover/filtros. Respeitar `prefers-reduced-motion` e manter conteúdo visível sem JavaScript.
 - Breakpoint principal: `desk:` = 980px (screen customizada)
 
 ## Estrutura do código
@@ -96,7 +97,7 @@ npm run build   # gera out/ (export estático) + typecheck — rodar antes de co
 
 ## Convenções ao alterar
 
-- Componentes de seção são **server components**; só `Header` e `accordion` são `"use client"`. Manter client components no mínimo.
+- Componentes de seção são **server components** por padrão. `Header`, `Motion`, `ProductExplorer`, `DifferenceAccordion` e os accordions são `"use client"` por necessidade de interação. Manter client components no mínimo.
 - Novos produtos: adicionar em `src/lib/products.ts` (menu e grid da Home atualizam sozinhos) + criar `src/app/service/<slug>/page.tsx` + card 370x240 em `public/assets/imagens/`.
 - Metadata: títulos seguem template `%s – Gerseg Seguros` (layout); a página Bike usa título absoluto `Gerseg Seguros | Seguro Bike e Bike Elétrica` (canônico do material).
 - Ícones: lucide-react (exceto WhatsApp → `WhatsAppIcon` próprio).

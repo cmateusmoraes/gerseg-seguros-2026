@@ -1,93 +1,114 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Facebook, Instagram } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/lib/config";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 export function Footer() {
-  const year = new Date().getFullYear();
-
   return (
-    <footer className="bg-navy text-white">
-      <div aria-hidden className="h-1 w-full bg-gold" />
-      <div className="container-site grid gap-10 py-14 desk:grid-cols-4 desk:gap-8">
-        {/* Logo + tagline */}
+    <footer className="border-t border-navy/15 bg-[#eeece5] text-navy">
+      <div className="container-site grid gap-10 py-14 sm:grid-cols-2 desk:grid-cols-[1.4fr_0.8fr_1fr_1.2fr] desk:gap-12 desk:py-16">
         <div>
-          <Link href="/">
+          <Link href="/" aria-label="Gerseg Seguros — página inicial">
             <Image
-              src="/assets/logo/logo-gerseg-branca.webp"
+              src="/assets/logo/logo-gerseg-azul.webp"
               alt="Gerseg Seguros"
-              width={170}
-              height={50}
-              className="h-11 w-auto"
+              width={300}
+              height={80}
+              className="h-auto w-48"
             />
           </Link>
-          <p className="mt-4 text-sm leading-relaxed text-white/70">
+          <p className="mt-5 max-w-[240px] text-xs leading-6 text-muted">
             Corretora de Seguros desde 1985.
             <br />
             Experiência, confiança e atendimento que faz a diferença.
           </p>
-        </div>
-
-        {/* Contato */}
-        <div>
-          <h3 className="mb-4 flex items-center gap-2 font-serif text-lg">
-            <Phone className="h-4 w-4 text-gold" aria-hidden="true" />
-            Dúvidas? Contato
-          </h3>
-          <ul className="space-y-2 text-sm text-white/80">
-            <li>{siteConfig.phone.cellDisplay}</li>
-            <li>{siteConfig.phone.display}</li>
-            <li>
+          <div className="mt-5 flex gap-2">
+            {[
+              {
+                label: "Instagram",
+                href: siteConfig.social.instagram,
+                Icon: Instagram,
+              },
+              {
+                label: "Facebook",
+                href: siteConfig.social.facebook,
+                Icon: Facebook,
+              },
+              { label: "WhatsApp", href: whatsappUrl(), Icon: WhatsAppIcon },
+            ].map(({ label, href, Icon }) => (
               <a
-                href={`mailto:${siteConfig.email}`}
-                className="transition-colors hover:text-gold"
-              >
-                {siteConfig.email}
-              </a>
-            </li>
-            <li>
-              <a
-                href={whatsappUrl()}
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 transition-colors hover:text-gold"
+                aria-label={`${label} da Gerseg Seguros`}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-navy/20 transition-colors hover:bg-navy hover:text-white"
               >
-                <WhatsAppIcon className="h-4 w-4" />
-                WhatsApp
+                <Icon className="h-4 w-4" />
               </a>
-            </li>
-          </ul>
+            ))}
+          </div>
         </div>
-
-        {/* Horário */}
         <div>
-          <h3 className="mb-4 flex items-center gap-2 font-serif text-lg">
-            <Clock className="h-4 w-4 text-gold" aria-hidden="true" />
-            Horário de Atendimento
-          </h3>
-          <p className="text-sm text-white/80">{siteConfig.hoursShort}</p>
-          <p className="mt-1 text-sm text-white/60">Segunda a sexta</p>
+          <h2 className="eyebrow mb-6 text-muted">Gerseg</h2>
+          <nav
+            className="flex flex-col items-start gap-4 text-xs"
+            aria-label="Navegação do rodapé"
+          >
+            <Link href="/#quem-somos" className="hover:underline">
+              Quem somos
+            </Link>
+            <Link href="/#produtos" className="hover:underline">
+              Produtos
+            </Link>
+            <Link href="/#contato" className="hover:underline">
+              Contato
+            </Link>
+          </nav>
         </div>
-
-        {/* Localização */}
         <div>
-          <h3 className="mb-4 flex items-center gap-2 font-serif text-lg">
-            <MapPin className="h-4 w-4 text-gold" aria-hidden="true" />
-            Nossa Localização
-          </h3>
-          <p className="text-sm leading-relaxed text-white/80">
+          <h2 className="eyebrow mb-6 text-muted">Dúvidas? Contato</h2>
+          <a
+            href={`tel:+55${siteConfig.phone.cellDisplay.replace(/\D/g, "")}`}
+            className="block text-sm hover:underline"
+          >
+            {siteConfig.phone.cellDisplay}
+          </a>
+          <a
+            href={`tel:+${siteConfig.whatsapp.number}`}
+            className="mt-3 block text-sm hover:underline"
+          >
+            {siteConfig.phone.display}
+          </a>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="mt-4 inline-flex items-center gap-2 text-xs hover:underline"
+          >
+            E-mail <ArrowUpRight size={13} aria-hidden="true" />
+          </a>
+          <p className="mt-5 text-xs leading-6 text-muted">
+            {siteConfig.hours}
+          </p>
+        </div>
+        <div>
+          <h2 className="eyebrow mb-6 text-muted">Nossa localização</h2>
+          <p className="text-xs leading-7">
             {siteConfig.address.street}
             <br />
             {siteConfig.address.city}
           </p>
+          <p className="mt-6 font-serif text-xl italic">
+            De pessoa para pessoa.
+          </p>
         </div>
       </div>
-
-      <div className="border-t border-white/10">
-        <div className="container-site py-5 text-center text-xs text-white/50">
-          © {year} Gerseg Seguros. Todos os direitos reservados.
-        </div>
+      <div className="container-site flex flex-col justify-between gap-3 border-t border-navy/15 py-6 pb-24 text-[10px] text-muted sm:flex-row sm:pb-6">
+        <span>
+          © {new Date().getFullYear()} Gerseg Seguros. Todos os direitos
+          reservados.
+        </span>
+        <span>Corretora de Seguros · São Paulo, SP</span>
       </div>
     </footer>
   );

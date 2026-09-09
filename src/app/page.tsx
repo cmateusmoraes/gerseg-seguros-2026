@@ -1,273 +1,410 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
-  Award,
+  ArrowDown,
+  ArrowDownRight,
+  ArrowUpRight,
   BadgeCheck,
   Bike,
   Car,
-  Headset,
-  KeyRound,
-  LifeBuoy,
+  Clock3,
+  Home,
   Mail,
   MapPin,
   Phone,
   ShieldCheck,
 } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/lib/config";
-import { getProduct } from "@/lib/products";
-import { Hero } from "@/components/sections/Hero";
-import { SectionHeading } from "@/components/sections/SectionHeading";
-import { FeatureGrid } from "@/components/sections/FeatureGrid";
-import { ProductCard } from "@/components/sections/ProductCard";
+import { ProductExplorer } from "@/components/sections/ProductExplorer";
+import { DifferenceAccordion } from "@/components/sections/DifferenceAccordion";
 import { InsurersGrid } from "@/components/sections/InsurersGrid";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
-/** Ordem dos cards definida para a Home */
-const homeProductSlugs = [
-  "seguro-automovel",
-  "seguro-aluguel-fianca",
-  "titulo-de-capitalizacao-para-locacao",
-  "seguro-incendio-residencial",
-  "seguro-bike",
-  "plano-de-saude-pet",
-  "seguro-celular",
-  "seguro-notebook",
-];
-
-const diferenciais = [
-  {
-    icon: Headset,
-    title: "Atendimento diferenciado",
-    description:
-      "Conhecemos nossos clientes para apresentar soluções ideias. De pessoa para pessoa.",
-  },
-  {
-    icon: LifeBuoy,
-    title: "Sempre conectados",
-    description:
-      "Prefere ser atendido pelo WhatsApp? Instagram? Telefone? Aqui o cliente escolhe.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Teve um contratempo?",
-    description:
-      "Imprevistos acontecem e nesse momento pode contar com a nossa ajuda.",
-  },
-  {
-    icon: Award,
-    title: "Profissionais capacitados",
-    description:
-      "Temos muita experiência no mercado, buscamos sempre o que o cliente precisa.",
-  },
-];
-
-const propostas = [
-  {
-    icon: Car,
-    title: "Seguro Automóvel",
-    highlight: "Cote já!",
-    text: "Trabalhamos com as melhores seguradoras do mercado.",
-    message: "Olá! Gostaria de solicitar uma cotação de Seguro Automóvel.",
-  },
-  {
-    icon: KeyRound,
-    title: "Seguro Aluguel / Fiança",
-    highlight: "Sem fiador e sem caução",
-    text: "Você não precisa se preocupar com fiador e caução, aluga o imóvel que quiser com agilidade e ainda conta com vários benefícios.",
-    message:
-      "Olá! Gostaria de solicitar uma proposta de Seguro Aluguel / Fiança.",
-  },
-  {
-    icon: Bike,
-    title: "Seguro Bike e Bike Elétrica",
-    highlight: "Bikes comuns e elétricas",
-    text: "Pedale com tranquilidade. Cobertura para bikes comuns e elétricas, com atendimento humanizado pela Porto Seguro.",
-    message:
-      "Olá! Gostaria de solicitar uma cotação de Seguro Bike e Bike Elétrica.",
-  },
-];
-
 export default function HomePage() {
   return (
     <>
-      {/* Hero */}
-      <Hero
-        titleLines={["Há mais de 40 anos"]}
-        titleAccent="protegendo o que importa pra você."
-        paragraph={siteConfig.description}
-        cta={<WhatsAppButton variant="gold">Faça uma cotação</WhatsAppButton>}
-        image={{
-          src: "/assets/imagens/home-hero-automovel.webp",
-          alt: "Casa, carro e bike elétrica protegidos pela Gerseg Seguros",
-        }}
-      />
-
-      {/* Quem Somos */}
-      <section id="quem-somos" className="scroll-mt-28">
-        <div className="container-site section-pad grid items-center gap-10 desk:grid-cols-2 desk:gap-14">
-          <Image
-            src="/assets/imagens/quem-somos.webp"
-            alt="Equipe Gerseg Seguros"
-            width={760}
-            height={420}
-            className="h-72 w-full rounded-img border-2 border-gold/40 object-cover shadow-card desk:h-[440px]"
-          />
-          <div>
-            <SectionHeading title="Quem Somos" align="left" withRule />
-            <p className="mt-6 text-base leading-relaxed text-muted">
-              Fundada em 1985, ela sempre esteve no mercado de seguros com
-              preços competitivos, atendimento personalizado e agilidade nas
-              solicitações. Tudo isso com muita inovação, tecnologia e
-              transparência. Cada cliente é mais do que um novo negócio, é mais
-              um membro da <strong className="text-navy">família Gerseg</strong>.
+      <section
+        className="home-hero relative isolate overflow-hidden bg-navy text-white"
+        aria-labelledby="home-title"
+      >
+        <div className="container-site relative grid desk:min-h-[650px] desk:grid-cols-12">
+          <div className="relative z-10 pb-8 pt-10 desk:col-span-6 desk:pb-20 desk:pt-20">
+            <p className="eyebrow hero-enter text-gold">
+              <span className="h-px w-9 bg-gold" /> Corretora de seguros desde
+              1985
             </p>
-            <ul className="mt-7 grid gap-4 sm:grid-cols-3">
-              {[
-                { icon: BadgeCheck, label: "Solução ideal para você" },
-                { icon: ShieldCheck, label: "Corretores com Susep" },
-                { icon: MapPin, label: "São Paulo, SP" },
-              ].map(({ icon: Icon, label }) => (
-                <li key={label} className="flex items-center gap-2.5 text-sm font-medium text-navy">
-                  <Icon className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
-                  {label}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-wrap items-center gap-5">
-              <WhatsAppButton variant="gold">Faça uma cotação</WhatsAppButton>
-              <span className="flex items-center gap-2 text-sm font-semibold text-navy">
-                <Phone className="h-4 w-4 text-gold" aria-hidden="true" />
-                {siteConfig.phone.cellDisplay}
-              </span>
+            <h1
+              id="home-title"
+              className="hero-enter mt-8 max-w-[640px] font-serif text-[clamp(2.6rem,13.4vw,5rem)] desk:text-[clamp(3.25rem,5.1vw,5rem)] font-medium leading-[1.06] tracking-[-0.045em] [animation-delay:100ms]"
+            >
+              Protegendo
+              <br />o que importa
+              <br />
+              <em className="font-normal text-gold">pra você.</em>
+            </h1>
+            <p className="hero-enter mt-7 max-w-[330px] text-sm leading-7 text-white/75 [animation-delay:200ms]">
+              Há mais de 40 anos, experiência, confiança e atendimento que faz a
+              diferença.
+            </p>
+            <div className="hero-enter mt-7 flex flex-wrap items-center gap-3 desk:gap-6 [animation-delay:300ms]">
+              <WhatsAppButton
+                variant="gold"
+                className="min-h-[52px] px-5 text-xs desk:min-h-14 desk:px-6 desk:text-sm"
+              >
+                Faça uma cotação <ArrowUpRight size={18} aria-hidden="true" />
+              </WhatsAppButton>
+              <Link
+                href="#produtos"
+                className="group flex items-center gap-2 py-3 text-xs text-white/90 desk:gap-3 desk:text-sm"
+              >
+                Produtos{" "}
+                <ArrowDown
+                  size={16}
+                  className="transition-transform group-hover:translate-y-1"
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
+            <div className="hero-enter mt-8 flex items-center desk:mt-12 gap-3 border-t border-white/15 pt-6 text-xs text-white/70 [animation-delay:400ms]">
+              <ShieldCheck
+                size={22}
+                strokeWidth={1.3}
+                className="text-gold"
+                aria-hidden="true"
+              />{" "}
+              Corretores com Susep <span className="mx-1 text-white/30">/</span>{" "}
+              São Paulo, SP
+            </div>
+          </div>
+          <div className="hero-photo relative min-h-[370px] desk:absolute desk:inset-y-0 desk:-right-[6%] desk:w-[64%]">
+            <Image
+              src="/assets/imagens/home-hero-automovel.webp"
+              alt="Família em frente de casa, com carro e bicicleta elétrica"
+              width={1448}
+              height={1086}
+              priority
+              sizes="(min-width: 980px) 64vw, 100vw"
+              className="absolute h-full w-full object-cover object-[65%_center]"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent desk:bg-gradient-to-r desk:from-navy desk:via-navy/10 desk:to-transparent"
+            />
+            <div
+              aria-hidden="true"
+              className="hero-orbit absolute -right-32 top-12 h-[480px] w-[480px] rounded-full border border-gold/45"
+            />
+            <Link
+              href="/service/seguro-incendio-residencial/"
+              className="scene-link absolute right-[12%] top-[24%]"
+              aria-label="Conhecer o Seguro Incêndio Residencial"
+            >
+              <Home size={19} aria-hidden="true" />
+              <span>Seu lar</span>
+            </Link>
+            <Link
+              href="/service/seguro-automovel/"
+              className="scene-link absolute left-[18%] top-[57%]"
+              aria-label="Conhecer o Seguro Automóvel"
+            >
+              <Car size={19} aria-hidden="true" />
+              <span>Seu carro</span>
+            </Link>
+            <Link
+              href="/service/seguro-bike/"
+              className="scene-link absolute bottom-[18%] right-[29%]"
+              aria-label="Conhecer o Seguro Bike e Bike Elétrica"
+            >
+              <Bike size={19} aria-hidden="true" />
+              <span>Sua bike</span>
+            </Link>
+            <div className="absolute bottom-7 right-6 flex items-center gap-3 text-[10px] uppercase tracking-[0.18em] text-white/85">
+              <span className="h-px w-8 bg-gold" /> Solução ideal para você
             </div>
           </div>
         </div>
       </section>
 
-      {/* Nossos Diferenciais */}
-      <section className="bg-white">
-        <div className="container-site section-pad">
-          <SectionHeading title="Nossos Diferenciais" align="left" withRule />
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted">
-            Temos mais de 40 anos de experiência no mercado de seguros, isso
-            nos trouxe o conhecimento necessário para fazer com que nossos
-            clientes não caiam em pegadinhas ou tenham problemas no momento em
-            que mais precisarem dos serviços.
+      <section
+        className="border-b border-line bg-[#eeece5]"
+        aria-label="Seguradoras parceiras"
+      >
+        <div className="container-site grid items-center gap-7 py-9 desk:grid-cols-[220px_1fr] desk:gap-12">
+          <p className="text-sm leading-6 text-muted">
+            Trabalhamos com as{" "}
+            <strong className="font-medium text-navy">
+              melhores seguradoras do mercado.
+            </strong>
           </p>
-          <FeatureGrid items={diferenciais} columns={4} numbered className="mt-12" />
-          <p className="mt-12 text-center font-serif text-xl font-bold text-navy">
-            Ouvimos nossos clientes para oferecer as melhores
-            <span className="text-gold"> soluções do mercado.</span>
-          </p>
+          <div className="grid grid-cols-3 items-center gap-x-6 gap-y-5 sm:grid-cols-5">
+            {[
+              { file: "porto-seguro", name: "Porto Seguro" },
+              { file: "allianz", name: "Allianz" },
+              { file: "tokio-marine", name: "Tokio Marine" },
+              { file: "hdi", name: "HDI" },
+              { file: "azul-seguros", name: "Azul Seguros" },
+            ].map(({ file, name }) => (
+              <Image
+                key={file}
+                src={`/assets/seguradoras/${file}.webp`}
+                alt={name}
+                width={110}
+                height={80}
+                className="mx-auto h-20 w-28 max-w-full object-contain mix-blend-multiply opacity-80 transition-opacity hover:opacity-100"
+              />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Produtos */}
       <section id="produtos" className="scroll-mt-28">
         <div className="container-site section-pad">
-          <SectionHeading title="Produtos" align="left" withRule />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 desk:grid-cols-4">
-            {homeProductSlugs.map((slug) => (
-              <ProductCard key={slug} product={getProduct(slug)} />
-            ))}
+          <div
+            data-reveal
+            className="mb-10 flex flex-col justify-between gap-6 desk:flex-row desk:items-end"
+          >
+            <div>
+              <p className="eyebrow text-muted">
+                <span className="section-number">01</span> Produtos
+              </p>
+              <h2 className="display-heading mt-6">
+                Solução ideal
+                <br />
+                <em>para você.</em>
+              </h2>
+            </div>
+            <p className="max-w-[320px] text-sm leading-7 text-muted">
+              Ouvimos nossos clientes para oferecer as melhores soluções do
+              mercado.
+            </p>
           </div>
-          <div className="mt-12 text-center">
-            <WhatsAppButton variant="gold">Solicite uma cotação</WhatsAppButton>
-          </div>
-        </div>
-      </section>
-
-      {/* Solicite uma Proposta — faixa escura */}
-      <section className="relative overflow-hidden bg-navy">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -left-32 top-1/2 hidden h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-white/[0.03] desk:block"
-        />
-        <div className="container-site section-pad relative">
-          <SectionHeading title="Solicite uma Proposta" onDark withRule />
-          <div className="mt-12 grid gap-6 desk:grid-cols-3">
-            {propostas.map(({ icon: Icon, title, highlight, text, message }) => (
-              <a
-                key={title}
-                href={whatsappUrl(siteConfig.whatsapp.number, message)}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Solicitar proposta de ${title} pelo WhatsApp`}
-                className="rounded-card border border-white/10 bg-white p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-[5px] hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-navy"
-              >
-                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-white">
-                  <Icon className="h-7 w-7" aria-hidden="true" />
-                </span>
-                <h3 className="font-serif text-xl font-medium text-navy">{title}</h3>
-                <p className="mt-2 font-semibold text-gold">{highlight}</p>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{text}</p>
-              </a>
-            ))}
+          <ProductExplorer />
+          <div
+            data-reveal
+            className="mt-10 flex flex-col justify-between gap-5 border-t border-line pt-7 sm:flex-row sm:items-center"
+          >
+            <p className="font-serif text-xl">Como posso te ajudar?</p>
+            <WhatsAppButton
+              variant="outline"
+              className="self-start sm:self-auto"
+            >
+              Solicite uma cotação <ArrowUpRight size={17} aria-hidden="true" />
+            </WhatsAppButton>
           </div>
         </div>
       </section>
 
-      {/* Atendimento diferenciado / Contato */}
-      <section id="contato" className="scroll-mt-28">
-        <div className="container-site section-pad">
-          <SectionHeading title="Atendimento diferenciado" withRule />
-          <div className="mt-12 grid gap-6 desk:grid-cols-3">
+      <section
+        id="quem-somos"
+        className="relative scroll-mt-28 overflow-hidden bg-[#eeece5]"
+      >
+        <div className="container-site section-pad grid items-center gap-12 desk:grid-cols-2 desk:gap-24">
+          <div data-reveal className="relative pb-8 pr-7 desk:pb-12 desk:pr-10">
+            <div className="relative overflow-hidden rounded-t-[180px]">
+              <Image
+                src="/assets/imagens/quem-somos.webp"
+                alt="Atendimento da corretora, com notebook e materiais de trabalho"
+                width={760}
+                height={820}
+                sizes="(min-width: 980px) 45vw, 90vw"
+                className="h-[390px] w-full object-cover sm:h-[500px]"
+              />
+            </div>
+            <div className="absolute bottom-0 right-0 flex h-40 w-44 flex-col justify-center bg-navy px-7 text-white desk:h-48 desk:w-52">
+              <span className="text-xs uppercase tracking-[0.18em] text-gold">
+                Desde
+              </span>
+              <span className="mt-1 font-serif text-6xl tracking-tight desk:text-7xl">
+                1985<span className="text-gold">.</span>
+              </span>
+              <span className="mt-2 text-xs text-white/70">Gerseg Seguros</span>
+            </div>
+          </div>
+          <div data-reveal>
+            <p className="eyebrow text-muted">
+              <span className="section-number">02</span> Quem somos
+            </p>
+            <h2 className="display-heading mt-6">
+              De pessoa
+              <br />
+              <em>para pessoa.</em>
+            </h2>
+            <p className="mt-7 text-sm leading-7 text-muted">
+              Fundada em 1985, ela sempre esteve no mercado de seguros com
+              preços competitivos, atendimento personalizado e agilidade nas
+              solicitações. Tudo isso com muita inovação, tecnologia e
+              transparência.
+            </p>
+            <p className="mt-4 text-sm leading-7 text-muted">
+              Cada cliente é mais do que um novo negócio, é mais um membro da{" "}
+              <strong className="font-semibold text-navy">
+                família Gerseg.
+              </strong>
+            </p>
+            <div className="my-8 grid grid-cols-2 gap-5 border-y border-navy/15 py-6">
+              <div className="flex items-center gap-3 text-xs leading-5">
+                <BadgeCheck size={24} strokeWidth={1.4} aria-hidden="true" />
+                Corretores
+                <br />
+                com Susep
+              </div>
+              <div className="flex items-center gap-3 text-xs leading-5">
+                <MapPin size={24} strokeWidth={1.4} aria-hidden="true" />
+                São Paulo,
+                <br />
+                SP
+              </div>
+            </div>
+            <WhatsAppButton variant="solid">
+              Faça uma cotação <ArrowUpRight size={18} aria-hidden="true" />
+            </WhatsAppButton>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-surface">
+        <div className="container-site section-pad grid gap-12 desk:grid-cols-[0.9fr_1.1fr] desk:gap-24">
+          <div data-reveal>
+            <p className="eyebrow text-muted">
+              <span className="section-number">03</span> Nossos diferenciais
+            </p>
+            <h2 className="display-heading mt-6">
+              Atendimento
+              <br />
+              <em>diferenciado.</em>
+            </h2>
+            <p className="mt-7 max-w-sm text-sm leading-7 text-muted">
+              Temos mais de 40 anos de experiência no mercado de seguros, isso
+              nos trouxe o conhecimento necessário para fazer com que nossos
+              clientes não caiam em pegadinhas ou tenham problemas no momento em
+              que mais precisarem dos serviços.
+            </p>
+            <ArrowDownRight
+              size={80}
+              strokeWidth={0.75}
+              className="mt-10 hidden text-gold desk:block"
+              aria-hidden="true"
+            />
+          </div>
+          <div data-reveal>
+            <DifferenceAccordion />
+          </div>
+        </div>
+      </section>
+
+      <section id="contato" className="scroll-mt-28 bg-navy text-white">
+        <div className="container-site section-pad relative overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-40 -top-40 h-[650px] w-[650px] rounded-full border border-gold/20 after:absolute after:inset-12 after:rounded-full after:border after:border-gold/15"
+          />
+          <div
+            data-reveal
+            className="relative grid gap-10 desk:grid-cols-[1fr_auto] desk:items-center"
+          >
+            <div>
+              <p className="eyebrow text-gold">
+                <span className="section-number border-gold/40 text-gold">
+                  04
+                </span>{" "}
+                Solicite uma proposta
+              </p>
+              <h2 className="display-heading mt-7 text-white">
+                Como posso
+                <br />
+                <em className="text-gold">te ajudar?</em>
+              </h2>
+              <p className="mt-6 max-w-md text-sm leading-7 text-white/70">
+                Prefere ser atendido pelo WhatsApp? Instagram? Telefone? Aqui o
+                cliente escolhe.
+              </p>
+            </div>
             <a
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-card border border-line bg-white p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-[5px] hover:border-gold/40 hover:shadow-card-hover"
+              className="group relative flex h-36 w-36 flex-col items-center justify-center gap-3 rounded-full bg-gold text-navy transition-transform duration-500 hover:rotate-[-8deg] hover:scale-105 desk:mr-20 desk:h-48 desk:w-48"
+              aria-label="Faça uma cotação pelo WhatsApp"
             >
-              <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white">
-                <WhatsAppIcon className="h-7 w-7" />
+              <ArrowUpRight size={44} strokeWidth={1} aria-hidden="true" />
+              <span className="text-xs font-medium">Faça uma cotação</span>
+            </a>
+          </div>
+          <div
+            data-reveal
+            className="relative mt-14 grid border-t border-white/20 desk:grid-cols-3"
+          >
+            <a
+              href={whatsappUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-link group desk:border-r desk:border-white/20 desk:pr-8"
+            >
+              <WhatsAppIcon className="h-5 w-5 text-gold" />
+              <span className="mt-5 text-xs text-white/60">
+                WhatsApp · Fácil e rápido
               </span>
-              <h3 className="font-serif text-xl font-medium text-navy">WhatsApp</h3>
-              <p className="mt-2 font-semibold text-gold">Fácil e rápido</p>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                <strong className="text-navy">Clique aqui</strong> e fale
-                conosco agora mesmo. Atendimento de segunda a sexta das 9h às
-                18hs.
-              </p>
+              <span className="mt-2 flex items-center justify-between text-lg">
+                {siteConfig.whatsapp.display}
+                <ArrowUpRight
+                  size={20}
+                  className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </span>
             </a>
             <a
-              href={`tel:+5511985419978`}
-              className="group rounded-card border border-line bg-white p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-[5px] hover:border-gold/40 hover:shadow-card-hover"
+              href={`tel:+55${siteConfig.phone.cellDisplay.replace(/\D/g, "")}`}
+              className="contact-link group desk:border-r desk:border-white/20 desk:px-8"
             >
-              <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-white">
-                <Phone className="h-7 w-7" aria-hidden="true" />
+              <Phone size={20} className="text-gold" aria-hidden="true" />
+              <span className="mt-5 text-xs text-white/60">
+                Prefere conversar?
               </span>
-              <h3 className="font-serif text-xl font-medium text-navy">Telefone</h3>
-              <p className="mt-2 font-semibold text-gold">
+              <span className="mt-2 flex items-center justify-between text-lg">
                 {siteConfig.phone.cellDisplay}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                Prefere conversar? Entre em contato por telefone.
-              </p>
+                <ArrowUpRight
+                  size={20}
+                  className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </span>
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="group rounded-card border border-line bg-white p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-[5px] hover:border-gold/40 hover:shadow-card-hover"
+              className="contact-link group desk:pl-8"
             >
-              <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-white">
-                <Mail className="h-7 w-7" aria-hidden="true" />
+              <Mail size={20} className="text-gold" aria-hidden="true" />
+              <span className="mt-5 text-xs text-white/60">E-mail</span>
+              <span className="mt-2 flex items-center justify-between gap-3 break-all text-sm desk:text-base">
+                {siteConfig.email}
+                <ArrowUpRight
+                  size={20}
+                  className="shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
               </span>
-              <h3 className="font-serif text-xl font-medium text-navy">E-mail</h3>
-              <p className="mt-2 break-all font-semibold text-gold">{siteConfig.email}</p>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                Clique aqui para enviar um e-mail.
-              </p>
             </a>
           </div>
+          <p className="mt-6 flex items-center gap-2 text-xs text-white/60">
+            <Clock3 size={14} aria-hidden="true" /> {siteConfig.hours}
+          </p>
         </div>
       </section>
 
-      {/* Seguradoras */}
-      <section className="bg-white">
-        <div className="container-site section-pad">
-          <SectionHeading title="Seguradoras" withRule />
-          <div className="mt-12">
-            <InsurersGrid />
+      <section className="bg-surface">
+        <div className="container-site py-16 desk:py-20">
+          <div
+            data-reveal
+            className="mb-10 flex flex-wrap items-center justify-between gap-4"
+          >
+            <p className="eyebrow text-muted">Seguradoras</p>
+            <p className="text-sm text-muted">
+              Experiência, confiança e atendimento que faz a diferença.
+            </p>
           </div>
+          <InsurersGrid />
         </div>
       </section>
     </>

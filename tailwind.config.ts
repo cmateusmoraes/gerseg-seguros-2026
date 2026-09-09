@@ -31,8 +31,8 @@ const config: Config = {
           DEFAULT: "#c7a77b",
           soft: "#e7d9c4",
         },
-        surface: "#fbfaf8",
-        line: "#e7e5e0",
+        surface: "#f7f6f2",
+        line: "#deded5",
         muted: "#5a6470",
       },
       fontFamily: {
@@ -42,7 +42,7 @@ const config: Config = {
       borderRadius: {
         card: "18px",
         faq: "12px",
-        btn: "10px",
+        btn: "4px",
         img: "20px",
       },
       boxShadow: {

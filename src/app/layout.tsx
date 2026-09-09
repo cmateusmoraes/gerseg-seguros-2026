@@ -4,11 +4,13 @@ import { siteConfig } from "@/lib/config";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { Motion } from "@/components/layout/Motion";
 import "./globals.css";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["500", "700"],
+  style: ["normal", "italic"],
   variable: "--font-playfair",
   display: "swap",
 });
@@ -40,10 +42,16 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${playfair.variable} ${inter.variable}`}>
       <body>
+        <a href="#main-content" className="skip-link">
+          Pular para o conteúdo
+        </a>
         <Header />
-        <main>{children}</main>
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
         <WhatsAppFloat />
+        <Motion />
       </body>
     </html>
   );
