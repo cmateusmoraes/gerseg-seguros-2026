@@ -82,7 +82,7 @@ export default function HomePage() {
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent desk:bg-gradient-to-r desk:from-navy desk:via-navy/10 desk:to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent desk:-left-4 desk:bg-gradient-to-r desk:from-navy desk:from-[3%] desk:via-navy/10 desk:to-transparent"
             />
             <div
               aria-hidden="true"
