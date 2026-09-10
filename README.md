@@ -32,22 +32,35 @@ A home combina fotografia ampla, títulos em Playfair Display com itálico, seç
 
 Para revisar o HTML de produção localmente, após `npm run build`, use `python -m http.server 4317 --bind 127.0.0.1 --directory out` e abra `http://127.0.0.1:4317/`.
 
-## Deploy (GitHub Actions → FTP)
+## Deploy (GitHub Actions → Dialhost por SSH)
 
-Push na branch `main` dispara `.github/workflows/deploy.yml`: instala dependências, roda `next build` (gera `out/`) e publica `out/` no servidor via FTP ([SamKirkland/FTP-Deploy-Action](https://github.com/SamKirkland/FTP-Deploy-Action)).
+Pull requests para `main` instalam as dependências, geram o site estático e validam os arquivos essenciais. Um push na `main` repete essas verificações e publica somente o artefato aprovado em `public_html`, usando SSH + rsync. O workflow está em `.github/workflows/deploy.yml`.
 
-### Configurando os GitHub Secrets
+O deploy usa o environment `production` do GitHub e impede duas publicações simultâneas. A sincronização preserva `.well-known/`, `cgi-bin/`, `email/` e os arquivos `google*.html` existentes na hospedagem.
 
-1. No repositório do GitHub, acesse **Settings → Secrets and variables → Actions**.
-2. Clique em **New repository secret** e cadastre os 4 secrets:
+### Configuração no GitHub
 
-| Secret | Valor | Exemplo |
-|--------|-------|---------|
-| `FTP_SERVER` | Host do servidor FTP | `ftp.gersegseguros.com.br` |
-| `FTP_USERNAME` | Usuário FTP | `gerseg-deploy` |
-| `FTP_PASSWORD` | Senha FTP | — |
-| `FTP_SERVER_DIR` | Diretório remoto de destino | `/public_html/site2026/` |
+Em **Settings → Environments**, crie o environment `production`. Restrinja a publicação à branch `main` e cadastre:
 
-3. Faça push na `main` (ou rode o workflow manualmente em **Actions → Build & Deploy (FTP) → Run workflow**).
+| Tipo | Nome | Valor |
+|------|------|-------|
+| Secret | `DEPLOY_SSH_KEY` | Chave privada exclusiva do pipeline, sem senha |
+| Secret | `DEPLOY_SSH_KNOWN_HOSTS` | Linha verificada do host Dialhost para `known_hosts` |
+| Variable | `DEPLOY_SSH_HOST` | Host SSH da hospedagem |
+| Variable | `DEPLOY_SSH_PORT` | Porta SSH informada pela Dialhost |
+| Variable | `DEPLOY_SSH_USER` | `gersegse` |
+| Variable | `DEPLOY_SSH_PATH` | `/home/gersegse/public_html` |
 
-> O site exporta com `trailingSlash: true`, então cada rota vira `pasta/index.html` — funciona em Apache/Nginx sem configuração extra.
+No painel Dialhost, importe e autorize apenas a chave pública correspondente. A chave privada fica somente nos secrets do GitHub.
+
+### Primeira publicação
+
+O servidor atual usa WordPress e está acima da cota de armazenamento. Antes de ativar o deploy automático:
+
+1. Gere e baixe um backup completo dos arquivos e do banco de dados atuais.
+2. Confirme que o backup abre e contém `wp-content`, a exportação do banco e os arquivos de verificação do Google.
+3. Remova da raiz apenas os arquivos do WordPress que serão substituídos, liberando espaço suficiente para a publicação.
+4. Confirme via SSH que `rsync` está disponível e que `public_html` é gravável.
+5. Rode **Actions → CI & Deploy → Run workflow** e confira a home, as páginas de produtos, `robots.txt` e a imagem de compartilhamento.
+
+Depois da primeira migração, cada push na `main` publica automaticamente. O site exporta com `trailingSlash: true`, então cada rota vira `pasta/index.html` e funciona diretamente no Apache.
