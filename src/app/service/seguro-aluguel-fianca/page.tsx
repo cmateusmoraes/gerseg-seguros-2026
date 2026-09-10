@@ -5,18 +5,19 @@ import { SectionHeading } from "@/components/sections/SectionHeading";
 import { CheckList } from "@/components/sections/CheckList";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { ServiceStructuredData } from "@/components/seo/StructuredData";
 import { siteConfig } from "@/lib/config";
 import { getProduct } from "@/lib/products";
+import { serviceMetadata } from "@/lib/seo";
 
 const product = getProduct("seguro-aluguel-fianca");
 
-export const metadata: Metadata = {
-  title: product.title,
-};
+export const metadata: Metadata = serviceMetadata(product);
 
 export default function AluguelFiancaPage() {
   return (
     <>
+      <ServiceStructuredData product={product} />
       <PageBanner title={product.title} />
 
       <ProductIntro

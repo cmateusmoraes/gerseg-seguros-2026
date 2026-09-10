@@ -14,14 +14,14 @@ import { SectionHeading } from "@/components/sections/SectionHeading";
 import { CoverageGrid } from "@/components/sections/CoverageGrid";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { ExternalButton } from "@/components/ui/ExternalButton";
+import { ServiceStructuredData } from "@/components/seo/StructuredData";
 import { siteConfig } from "@/lib/config";
 import { getProduct } from "@/lib/products";
+import { serviceMetadata } from "@/lib/seo";
 
 const product = getProduct("seguro-celular");
 
-export const metadata: Metadata = {
-  title: product.title,
-};
+export const metadata: Metadata = serviceMetadata(product);
 
 const coberturas = [
   { icon: Smartphone, title: "Queda Acidental" },
@@ -35,6 +35,7 @@ const coberturas = [
 export default function SeguroCelularPage() {
   return (
     <>
+      <ServiceStructuredData product={product} />
       <PageBanner title={product.title} />
 
       <ProductIntro

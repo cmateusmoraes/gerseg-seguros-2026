@@ -10,7 +10,7 @@ interface PageBannerProps {
 /** Banner de título das páginas internas + breadcrumb "Home › Serviços › …". */
 export function PageBanner({
   title,
-  trail = [{ label: "Serviços" }],
+  trail = [{ label: "Serviços", href: "/#produtos" }],
 }: PageBannerProps) {
   return (
     <section className="relative isolate overflow-hidden bg-navy text-white">

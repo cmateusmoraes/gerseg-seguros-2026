@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -20,6 +21,9 @@ import { InsurersGrid } from "@/components/sections/InsurersGrid";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HumanNote } from "@/components/sections/HumanNote";
+import { homeMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = homeMetadata;
 
 export default function HomePage() {
   return (

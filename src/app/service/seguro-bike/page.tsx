@@ -24,14 +24,16 @@ import { StepsGrid } from "@/components/sections/StepsGrid";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import {
+  ServiceStructuredData,
+  StructuredData,
+} from "@/components/seo/StructuredData";
 import { getProduct } from "@/lib/products";
+import { faqStructuredData, serviceMetadata } from "@/lib/seo";
 
 const product = getProduct("seguro-bike");
 
-export const metadata: Metadata = {
-  // Título canônico da página (ESTRUTURA-SITE.md) — não usa o template "%s – Gerseg Seguros"
-  title: { absolute: "Gerseg Seguros | Seguro Bike e Bike Elétrica" },
-};
+export const metadata: Metadata = serviceMetadata(product);
 
 /**
  * ⚠️ Esta página usa o número (11) 3229-4057 (mockup do cliente),
@@ -155,6 +157,11 @@ const faq = [
 export default function SeguroBikePage() {
   return (
     <>
+      <ServiceStructuredData product={product} />
+      <StructuredData
+        id="bike-faq-structured-data"
+        data={faqStructuredData(faq)}
+      />
       <Hero
         titleLines={["Seguro para", "Bike e Bike Elétrica"]}
         titleAccent="com atendimento humanizado."
