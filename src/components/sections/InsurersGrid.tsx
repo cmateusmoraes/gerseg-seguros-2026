@@ -16,18 +16,18 @@ const insurers = [
 /** Grid com os logos das 10 seguradoras parceiras. */
 export function InsurersGrid() {
   return (
-    <ul className="grid grid-cols-2 items-center gap-6 sm:grid-cols-3 desk:grid-cols-5">
+    <ul className="grid grid-cols-2 items-center border-l border-t border-line sm:grid-cols-5">
       {insurers.map((s) => (
         <li
           key={s.file}
-          className="flex h-28 items-center justify-center rounded-card border border-line bg-white p-4 transition-all duration-200 hover:-translate-y-[5px] hover:shadow-md"
+          className="flex h-28 items-center justify-center border-b border-r border-line p-4 transition-colors duration-300 hover:bg-white"
         >
           <Image
             src={`/assets/seguradoras/${s.file}`}
             alt={s.name}
             width={110}
             height={110}
-            className="max-h-20 w-auto object-contain"
+            className="h-20 w-24 object-contain mix-blend-multiply"
           />
         </li>
       ))}

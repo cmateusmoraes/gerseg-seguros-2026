@@ -31,7 +31,13 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   return (
-    <div className={cn(align === "center" ? "text-center" : "text-left", className)}>
+    <div
+      data-reveal
+      className={cn(
+        align === "center" ? "text-center" : "text-left",
+        className,
+      )}
+    >
       {eyebrow && (
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
           {eyebrow}
@@ -39,20 +45,29 @@ export function SectionHeading({
       )}
       <Tag
         className={cn(
-          "font-serif font-medium leading-tight",
+          "font-serif font-medium leading-tight tracking-[-0.035em]",
           Tag === "h1" ? "text-4xl desk:text-5xl" : "text-3xl desk:text-4xl",
-          onDark ? "text-white" : "text-navy"
+          onDark ? "text-white" : "text-navy",
         )}
       >
         {title}
-        {titleAccent && <span className="block text-gold">{titleAccent}</span>}
+        {titleAccent && (
+          <span
+            className={cn(
+              "block font-normal italic",
+              onDark ? "text-gold" : "text-[#8d724e]",
+            )}
+          >
+            {titleAccent}
+          </span>
+        )}
       </Tag>
       {withRule && (
         <span
           aria-hidden
           className={cn(
             "mt-5 flex items-center gap-1.5",
-            align === "center" && "justify-center"
+            align === "center" && "justify-center",
           )}
         >
           <span className="h-[3px] w-12 rounded-full bg-gold" />

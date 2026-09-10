@@ -1,13 +1,20 @@
-name: Build & Deploy (FTP)
+name: CI & Deploy
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  build-and-deploy:
+  build:
+    name: Build and validate
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,14 +28,269 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build (next export estático → out/)
+      - name: Build static site
         run: npm run build
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Validate production export
+        shell: bash
+        run: |
+          set -euo pipefail
+          required_files=(
+            out/index.html
+            out/.htaccess
+            out/robots.txt
+            out/sitemap.xml
+            out/assets/imagens/gerseg-social-share.jpg
+          )
+
+          for file in "${required_files[@]}"; do
+            test -s "$file" || {
+              echo "Required production file is missing or empty: $file"
+              exit 1
+            }
+          done
+
+          grep -Fq "gerseg-social-share.jpg" out/index.html || {
+            echo "Social sharing metadata is missing from the home page"
+            exit 1
+          }
+
+          test "$(find out -type f | wc -l)" -gt 100 || {
+            echo "Static export contains fewer files than expected"
+            exit 1
+          }
+
+      - name: Package production artifact
+        uses: actions/upload-artifact@v4
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          local-dir: ./out/
+          name: gerseg-site-${{ github.sha }}
+          path: out/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Deploy to Dialhost
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: gerseg-production
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: https://www.gersegseguros.com.br/
+    steps:
+      - name: Download validated artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gerseg-site-${{ github.sha }}
+          path: out
+
+      - name: Configure SSH
+        shell: bash
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_SSH_KEY" || {
+            echo "DEPLOY_SSH_KEY is not configured in the production environment"
+            exit 1
+          }
+          test -n "$DEPLOY_SSH_KNOWN_HOSTS" || {
+            echo "DEPLOY_SSH_KNOWN_HOSTS is not configured in the production environment"
+            exit 1
+          }
+
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+
+      - name: Check Dialhost destination
+        shell: bash
+        env:
+          DEPLOY_SSH_HOST: ${{ vars.DEPLOY_SSH_HOST }}
+          DEPLOY_SSH_PORT: ${{ vars.DEPLOY_SSH_PORT }}
+          DEPLOY_SSH_USER: ${{ vars.DEPLOY_SSH_USER }}
+          DEPLOY_SSH_PATH: ${{ vars.DEPLOY_SSH_PATH }}
+        run: |
+          set -euo pipefail
+          remote="${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST}"
+          ssh_options=(
+            -i "$HOME/.ssh/id_ed25519"
+            -p "$DEPLOY_SSH_PORT"
+            -o BatchMode=yes
+            -o IdentitiesOnly=yes
+            -o StrictHostKeyChecking=yes
+            -o ConnectTimeout=15
+          )
+
+          test -n "$DEPLOY_SSH_HOST" || { echo "DEPLOY_SSH_HOST is not configured"; exit 1; }
+          test -n "$DEPLOY_SSH_USER" || { echo "DEPLOY_SSH_USER is not configured"; exit 1; }
+          [[ "$DEPLOY_SSH_PORT" =~ ^[0-9]+$ ]] || { echo "DEPLOY_SSH_PORT is invalid"; exit 1; }
+
+          test "$DEPLOY_SSH_PATH" = "/home/gersegse/public_html" || {
+            echo "Refusing to deploy to unexpected path: $DEPLOY_SSH_PATH"
+            exit 1
+          }
+
+          ssh "${ssh_options[@]}" "$remote" \
+            "command -v tar >/dev/null && command -v cp >/dev/null && command -v mv >/dev/null && test -d '$DEPLOY_SSH_PATH' && test -w '$DEPLOY_SSH_PATH'"
+
+          home_used_kb="$(ssh "${ssh_options[@]}" "$remote" \
+            "du -sk /home/gersegse | cut -f1")"
+          [[ "$home_used_kb" =~ ^[0-9]+$ ]] && (( home_used_kb <= 430000 )) || {
+            echo "Dialhost account files must use at most 430000 KB before deployment"
+            exit 1
+          }
+
+      - name: Create versioned package
+        shell: bash
+        env:
+          RELEASE_ID: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$RELEASE_ID" > out/.gerseg-release
+          tar -czf gerseg-site.tar.gz -C out .
+
+      - name: Publish static site
+        id: publish
+        shell: bash
+        env:
+          DEPLOY_SSH_HOST: ${{ vars.DEPLOY_SSH_HOST }}
+          DEPLOY_SSH_PORT: ${{ vars.DEPLOY_SSH_PORT }}
+          DEPLOY_SSH_USER: ${{ vars.DEPLOY_SSH_USER }}
+          DEPLOY_SSH_PATH: ${{ vars.DEPLOY_SSH_PATH }}
+          RELEASE_ID: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          remote="${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST}"
+          ssh_options=(
+            -i "$HOME/.ssh/id_ed25519"
+            -p "$DEPLOY_SSH_PORT"
+            -o BatchMode=yes
+            -o IdentitiesOnly=yes
+            -o StrictHostKeyChecking=yes
+            -o ConnectTimeout=15
+          )
+          remote_incoming="/home/gersegse/.gerseg-deploy/incoming/${RELEASE_ID}.tar.gz"
+
+          ssh "${ssh_options[@]}" "$remote" \
+            "mkdir -p '/home/gersegse/.gerseg-deploy/incoming'"
+
+          scp \
+            -i "$HOME/.ssh/id_ed25519" \
+            -P "$DEPLOY_SSH_PORT" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=15 \
+            gerseg-site.tar.gz "${remote}:${remote_incoming}"
+
+          ssh "${ssh_options[@]}" "$remote" /bin/bash -s -- \
+            "$RELEASE_ID" "$DEPLOY_SSH_PATH" <<'REMOTE'
+          set -euo pipefail
+
+          release_id="$1"
+          target="$2"
+          deploy_root="/home/gersegse/.gerseg-deploy"
+          incoming="$deploy_root/incoming/$release_id.tar.gz"
+          next="$deploy_root/next-$release_id"
+          previous="$deploy_root/previous"
+
+          case "$release_id" in
+            ""|*[!A-Za-z0-9._-]*) echo "Invalid release id"; exit 1 ;;
+          esac
+          test "$target" = "/home/gersegse/public_html"
+          test -f "$incoming"
+
+          rm -rf "$next"
+          mkdir -p "$next"
+          tar -xzf "$incoming" -C "$next"
+
+          test -s "$next/index.html"
+          test -s "$next/.htaccess"
+          test -s "$next/robots.txt"
+          test -s "$next/sitemap.xml"
+          test -s "$next/assets/imagens/gerseg-social-share.jpg"
+
+          for preserved_dir in .well-known cgi-bin email; do
+            if test -e "$target/$preserved_dir" && ! test -e "$next/$preserved_dir"; then
+              cp -a "$target/$preserved_dir" "$next/$preserved_dir"
+            fi
+          done
+
+          for preserved_file in "$target"/google*.html; do
+            test -e "$preserved_file" || continue
+            cp -a "$preserved_file" "$next/"
+          done
+
+          rm -rf "$previous"
+          mv "$target" "$previous"
+          if mv "$next" "$target"; then
+            chmod 755 "$target"
+            rm -f "$incoming"
+          else
+            mv "$previous" "$target"
+            exit 1
+          fi
+          REMOTE
+
+      - name: Verify production
+        id: verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          home_html="$(curl --fail --silent --show-error --retry 5 --retry-delay 5 \
+            https://www.gersegseguros.com.br/)"
+
+          grep -Fq "gerseg-social-share.jpg" <<< "$home_html" || {
+            echo "The production home page does not contain the expected sharing metadata"
+            exit 1
+          }
+
+          curl --fail --silent --show-error --retry 5 --retry-delay 5 \
+            https://www.gersegseguros.com.br/robots.txt >/dev/null
+          curl --fail --silent --show-error --retry 5 --retry-delay 5 \
+            https://www.gersegseguros.com.br/assets/imagens/gerseg-social-share.jpg >/dev/null
+
+      - name: Roll back failed release
+        if: ${{ failure() && steps.publish.outcome == 'success' }}
+        shell: bash
+        env:
+          DEPLOY_SSH_HOST: ${{ vars.DEPLOY_SSH_HOST }}
+          DEPLOY_SSH_PORT: ${{ vars.DEPLOY_SSH_PORT }}
+          DEPLOY_SSH_USER: ${{ vars.DEPLOY_SSH_USER }}
+          DEPLOY_SSH_PATH: ${{ vars.DEPLOY_SSH_PATH }}
+          RELEASE_ID: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          remote="${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST}"
+
+          ssh \
+            -i "$HOME/.ssh/id_ed25519" \
+            -p "$DEPLOY_SSH_PORT" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=15 \
+            "$remote" /bin/bash -s -- "$RELEASE_ID" "$DEPLOY_SSH_PATH" <<'REMOTE'
+          set -euo pipefail
+
+          release_id="$1"
+          target="$2"
+          deploy_root="/home/gersegse/.gerseg-deploy"
+          previous="$deploy_root/previous"
+          failed="$deploy_root/failed-$release_id"
+
+          test "$target" = "/home/gersegse/public_html"
+          if test -d "$previous" && test "$(cat "$target/.gerseg-release" 2>/dev/null)" = "$release_id"; then
+            mv "$target" "$failed"
+            mv "$previous" "$target"
+            rm -rf "$failed"
+            echo "Previous production release restored"
+          fi
+          REMOTE

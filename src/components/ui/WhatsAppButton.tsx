@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 const whatsappButton = cva(
-  "inline-flex items-center justify-center gap-2.5 rounded-btn font-sans font-semibold transition-all duration-200",
+  "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-btn font-sans font-medium transition-all duration-300 hover:-translate-y-0.5",
   {
     variants: {
       variant: {
@@ -13,9 +13,8 @@ const whatsappButton = cva(
           "bg-azure text-white shadow-card hover:bg-azure-hover hover:-translate-y-px",
         gold: "bg-gold text-navy hover:brightness-105",
         outline:
-          "border-2 border-navy text-navy hover:bg-navy hover:text-white",
-        light:
-          "bg-white text-navy hover:bg-gold hover:text-white",
+          "border border-navy/30 text-navy hover:bg-navy hover:text-white",
+        light: "bg-white text-navy hover:bg-gold hover:text-white",
       },
       size: {
         sm: "px-4 py-2 text-sm",
@@ -27,7 +26,7 @@ const whatsappButton = cva(
       variant: "solid",
       size: "md",
     },
-  }
+  },
 );
 
 interface WhatsAppButtonProps extends VariantProps<typeof whatsappButton> {

@@ -4,9 +4,11 @@
  */
 export const siteConfig = {
   name: "Gerseg Seguros",
+  fullName: "Gerseg & Bontempo Corretora de Seguros",
   tagline: "Corretora de Seguros",
+  url: "https://www.gersegseguros.com.br",
   description:
-    "Corretora de Seguros com mais de 40 anos de mercado, também oferecemos planos para assinatura de veículos e celular por assinatura. Entre em contato!",
+    "Corretora de seguros em São Paulo desde 1985, com atendimento personalizado para proteger sua família, seus bens e o que importa para você.",
 
   phone: {
     /** Telefone fixo canônico */
@@ -35,6 +37,11 @@ export const siteConfig = {
   address: {
     street: "Largo do Paissandú, 72 Cj. 405 — Centro",
     city: "São Paulo / SP",
+    streetAddress: "Largo do Paissandú, 72, conjunto 405",
+    neighborhood: "Centro",
+    locality: "São Paulo",
+    region: "SP",
+    country: "BR",
   },
 
   /** Horário canônico (README). O mockup Bike cita 8h — validar com a Karol. */

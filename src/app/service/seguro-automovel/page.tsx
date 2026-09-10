@@ -6,18 +6,19 @@ import { CheckList } from "@/components/sections/CheckList";
 import { InsurersGrid } from "@/components/sections/InsurersGrid";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { ServiceStructuredData } from "@/components/seo/StructuredData";
 import { siteConfig } from "@/lib/config";
 import { getProduct } from "@/lib/products";
+import { serviceMetadata } from "@/lib/seo";
 
 const product = getProduct("seguro-automovel");
 
-export const metadata: Metadata = {
-  title: product.title,
-};
+export const metadata: Metadata = serviceMetadata(product);
 
 export default function SeguroAutomovelPage() {
   return (
     <>
+      <ServiceStructuredData product={product} />
       <PageBanner title={product.title} />
 
       <ProductIntro

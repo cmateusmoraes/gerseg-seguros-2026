@@ -7,14 +7,14 @@ import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { PricingTable, type Plan } from "@/components/sections/PricingTable";
 import { CtaDark } from "@/components/sections/CtaDark";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { ServiceStructuredData } from "@/components/seo/StructuredData";
 import { siteConfig } from "@/lib/config";
 import { getProduct } from "@/lib/products";
+import { serviceMetadata } from "@/lib/seo";
 
 const product = getProduct("plano-de-saude-pet");
 
-export const metadata: Metadata = {
-  title: product.title,
-};
+export const metadata: Metadata = serviceMetadata(product);
 
 const vantagens = [
   {
@@ -91,6 +91,7 @@ const plans: Plan[] = [
 export default function PlanoSaudePetPage() {
   return (
     <>
+      <ServiceStructuredData product={product} />
       <PageBanner title={product.title} trail={[]} />
 
       <ProductIntro
