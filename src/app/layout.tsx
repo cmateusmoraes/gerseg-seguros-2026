@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { Motion } from "@/components/layout/Motion";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { siteStructuredData } from "@/lib/seo";
 import "./globals.css";
@@ -90,6 +91,7 @@ export default function RootLayout({
         <Footer />
         <WhatsAppFloat />
         <Motion />
+        <GoogleAnalytics />
       </body>
     </html>
   );
