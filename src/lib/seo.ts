@@ -4,6 +4,8 @@ import { productUrl, products, type Product } from "@/lib/products";
 
 export const organizationId = `${siteConfig.url}/#organization`;
 export const websiteId = `${siteConfig.url}/#website`;
+export const socialShareImagePath =
+  "/assets/imagens/gerseg-social-share.jpg";
 
 export function absoluteUrl(path: string): string {
   return new URL(path, `${siteConfig.url}/`).toString();
@@ -31,7 +33,13 @@ export const siteStructuredData = {
         width: 300,
         height: 80,
       },
-      image: absoluteUrl("/assets/imagens/home-hero-automovel.webp"),
+      image: {
+        "@type": "ImageObject",
+        url: absoluteUrl(socialShareImagePath),
+        width: 1200,
+        height: 630,
+        caption: "Gerseg Seguros — protegendo o que importa pra você.",
+      },
       description: siteConfig.description,
       foundingDate: "1985",
       slogan: "De pessoa para pessoa.",
@@ -80,10 +88,11 @@ export const siteStructuredData = {
 };
 
 const socialImage = {
-  url: "/assets/imagens/home-hero-automovel.webp",
-  width: 1448,
-  height: 1086,
-  alt: "Família protegida pela Gerseg Seguros",
+  url: socialShareImagePath,
+  width: 1200,
+  height: 630,
+  type: "image/jpeg",
+  alt: "Gerseg Seguros — protegendo o que importa pra você",
 };
 
 export const homeMetadata: Metadata = {
@@ -103,7 +112,7 @@ export const homeMetadata: Metadata = {
     card: "summary_large_image",
     title: "Gerseg Seguros | Corretora de Seguros em São Paulo",
     description: siteConfig.description,
-    images: [socialImage.url],
+    images: [{ url: socialImage.url, alt: socialImage.alt }],
   },
 };
 
@@ -121,13 +130,13 @@ export function serviceMetadata(product: Product): Metadata {
       siteName: siteConfig.name,
       locale: "pt_BR",
       type: "website",
-      images: [{ url: product.cardImage, alt: product.title }],
+      images: [socialImage],
     },
     twitter: {
       card: "summary_large_image",
       title: `${product.title} | ${siteConfig.name}`,
       description: product.seoDescription,
-      images: [product.cardImage],
+      images: [{ url: socialImage.url, alt: socialImage.alt }],
     },
   };
 }
