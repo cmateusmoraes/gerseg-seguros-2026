@@ -321,6 +321,7 @@ export default function HomePage() {
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
+              data-analytics-location="home_contact_circle"
               className="group relative flex h-36 w-36 flex-col items-center justify-center gap-3 rounded-full bg-gold text-navy transition-transform duration-500 hover:rotate-[-8deg] hover:scale-105 desk:mr-20 desk:h-48 desk:w-48"
               aria-label="Faça uma cotação pelo WhatsApp"
             >
@@ -336,6 +337,7 @@ export default function HomePage() {
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
+              data-analytics-location="home_contact_whatsapp"
               className="contact-link group desk:border-r desk:border-white/20 desk:pr-8"
             >
               <WhatsAppIcon className="h-5 w-5 text-gold" />
@@ -353,6 +355,7 @@ export default function HomePage() {
             </a>
             <a
               href={`tel:+55${siteConfig.phone.cellDisplay.replace(/\D/g, "")}`}
+              data-analytics-location="home_contact_phone"
               className="contact-link group desk:border-r desk:border-white/20 desk:px-8"
             >
               <Phone size={20} className="text-gold" aria-hidden="true" />
@@ -370,6 +373,7 @@ export default function HomePage() {
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
+              data-analytics-location="home_contact_email"
               className="contact-link group desk:pl-8"
             >
               <Mail size={20} className="text-gold" aria-hidden="true" />

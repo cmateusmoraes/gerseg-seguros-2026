@@ -49,7 +49,7 @@ export default function SeguroCelularPage() {
         ctas={
           <>
             {/* Link de afiliado Porto Seguro (código do corretor G5317J) */}
-            <ExternalButton href={siteConfig.affiliate.celular}>
+            <ExternalButton href={siteConfig.affiliate.celular} product="seguro_celular">
               Contrate agora!
             </ExternalButton>
             <WhatsAppButton variant="outline">
@@ -73,7 +73,7 @@ export default function SeguroCelularPage() {
           </div>
 
           <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <ExternalButton href={siteConfig.affiliate.celular}>
+            <ExternalButton href={siteConfig.affiliate.celular} product="seguro_celular">
               Contrate agora!
             </ExternalButton>
             <WhatsAppButton variant="outline">
@@ -90,7 +90,7 @@ export default function SeguroCelularPage() {
             <span className="block text-gold">Tire suas dúvidas: WhatsApp</span>
           </h2>
           <div className="flex shrink-0 flex-wrap justify-center gap-4">
-            <ExternalButton href={siteConfig.affiliate.celular}>
+            <ExternalButton href={siteConfig.affiliate.celular} product="seguro_celular">
               Contrate agora!
             </ExternalButton>
             <WhatsAppButton variant="light">Tire suas dúvidas</WhatsAppButton>

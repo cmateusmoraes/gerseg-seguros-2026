@@ -33,6 +33,9 @@ interface WhatsAppButtonProps extends VariantProps<typeof whatsappButton> {
   children: React.ReactNode;
   /** Número E.164 sem "+" (default: WhatsApp canônico do site) */
   number?: string;
+  /** Mensagem inicial exibida no WhatsApp; o visitante ainda decide se envia. */
+  message?: string;
+  trackingLocation?: string;
   withIcon?: boolean;
   className?: string;
 }
@@ -44,6 +47,8 @@ interface WhatsAppButtonProps extends VariantProps<typeof whatsappButton> {
 export function WhatsAppButton({
   children,
   number = siteConfig.whatsapp.number,
+  message,
+  trackingLocation = "whatsapp_button",
   variant,
   size,
   withIcon = true,
@@ -51,10 +56,11 @@ export function WhatsAppButton({
 }: WhatsAppButtonProps) {
   return (
     <a
-      href={whatsappUrl(number)}
+      href={whatsappUrl(number, message)}
       target="_blank"
       rel="noopener noreferrer"
       className={cn(whatsappButton({ variant, size }), className)}
+      data-analytics-location={trackingLocation}
     >
       {withIcon && <WhatsAppIcon className="h-[18px] w-[18px] shrink-0" />}
       {children}

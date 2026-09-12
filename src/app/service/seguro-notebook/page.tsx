@@ -51,7 +51,7 @@ export default function SeguroNotebookPage() {
         }}
         ctas={
           /* Link de afiliado Porto Seguro (código G5317J) — contratação online direta */
-          <ExternalButton href={siteConfig.affiliate.notebook}>
+          <ExternalButton href={siteConfig.affiliate.notebook} product="seguro_notebook">
             Contrate agora!
           </ExternalButton>
         }
@@ -63,7 +63,7 @@ export default function SeguroNotebookPage() {
           <SectionHeading title="Coberturas" />
           <CoverageGrid items={coberturas} columns={3} className="mt-12" />
           <div className="mt-12 flex flex-col items-center gap-4">
-            <ExternalButton href={siteConfig.affiliate.notebook}>
+            <ExternalButton href={siteConfig.affiliate.notebook} product="seguro_notebook">
               Contrate agora!
             </ExternalButton>
             <p className="text-sm font-semibold text-navy">
@@ -81,7 +81,7 @@ export default function SeguroNotebookPage() {
             <span className="block text-gold">Tire suas dúvidas: WhatsApp</span>
           </h2>
           <div className="flex shrink-0 flex-wrap justify-center gap-4">
-            <ExternalButton href={siteConfig.affiliate.notebook}>
+            <ExternalButton href={siteConfig.affiliate.notebook} product="seguro_notebook">
               Contrate agora!
             </ExternalButton>
             <WhatsAppButton variant="light">Tire suas dúvidas</WhatsAppButton>

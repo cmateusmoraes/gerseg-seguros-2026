@@ -55,6 +55,7 @@ export function Header() {
           <span>Experiência e confiança desde 1985.</span>
           <a
             href={`mailto:${siteConfig.email}`}
+            data-analytics-location="header_email"
             className="hidden transition-colors hover:text-navy sm:block"
           >
             {siteConfig.email}
@@ -167,6 +168,7 @@ export function Header() {
           href={whatsappUrl()}
           target="_blank"
           rel="noopener noreferrer"
+          data-analytics-location="header_desktop"
           className="hidden min-h-11 shrink-0 items-center gap-2 rounded-btn bg-navy px-4 py-3 text-xs font-medium text-white transition-colors hover:bg-navy-hover desk:flex xl:gap-3 xl:px-5"
         >
           <WhatsAppIcon className="h-4 w-4" />
@@ -264,6 +266,7 @@ export function Header() {
             href={whatsappUrl()}
             target="_blank"
             rel="noopener noreferrer"
+            data-analytics-location="header_mobile"
             className="mt-5 flex min-h-12 items-center justify-center gap-3 rounded-btn bg-navy px-5 py-3 text-sm text-white"
           >
             <WhatsAppIcon className="h-4 w-4" />

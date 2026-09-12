@@ -5,6 +5,8 @@
 export interface Product {
   slug: string;
   title: string;
+  /** Título curto e orientado à intenção de busca. */
+  seoTitle?: string;
   /** Descrição curta usada no card da Home (texto 100% de conteudo/00-home.md) */
   cardDescription: string;
   /** Descrição específica para buscadores e compartilhamentos. */
@@ -16,6 +18,7 @@ export const products: Product[] = [
   {
     slug: "seguro-automovel",
     title: "Seguro Automóvel",
+    seoTitle: "Seguro Auto em São Paulo: Cotação",
     cardDescription:
       "Porto Seguro, Azul, Sompo, Sulamérica, Allianz, Tokio Marine entre outros.",
     seoDescription:
@@ -25,6 +28,7 @@ export const products: Product[] = [
   {
     slug: "seguro-aluguel-fianca",
     title: "Seguro Aluguel / Fiança",
+    seoTitle: "Seguro Fiança Locatícia em São Paulo",
     cardDescription:
       "Você não precisa se preocupar com fiador e caução, aluga o imóvel que quiser com agilidade e ainda conta com vários benefícios.",
     seoDescription:

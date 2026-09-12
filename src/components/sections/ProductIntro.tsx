@@ -18,6 +18,7 @@ interface ProductIntroProps {
   phoneNote?: string;
   /** Inverte a ordem (mídia à direita) */
   reverse?: boolean;
+  trackingLocation?: string;
 }
 
 /** Seção "Conheça o Produto": mídia + texto + CTAs (template das páginas internas). */
@@ -30,6 +31,7 @@ export function ProductIntro({
   ctas,
   phoneNote,
   reverse = false,
+  trackingLocation = "product_intro",
 }: ProductIntroProps) {
   return (
     <section className="bg-white">
@@ -71,7 +73,7 @@ export function ProductIntro({
             <HumanNote className="mt-6">Seu seguro, explicado em uma conversa.</HumanNote>
             {ctas && <div className="mt-6 flex flex-wrap gap-4">{ctas}</div>}
             {phoneNote && (
-              <a href={`tel:+55${phoneNote.replace(/\D/g, "")}`} className="mt-3 inline-flex min-h-11 flex-wrap items-center gap-x-2 text-sm text-muted underline-offset-4 hover:text-navy hover:underline">
+              <a href={`tel:+55${phoneNote.replace(/\D/g, "")}`} data-analytics-location={`${trackingLocation}_phone`} className="mt-3 inline-flex min-h-11 flex-wrap items-center gap-x-2 text-sm text-muted underline-offset-4 hover:text-navy hover:underline">
                 Prefere conversar por telefone? <span className="font-medium text-navy">{phoneNote}</span>
               </a>
             )}

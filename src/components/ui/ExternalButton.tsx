@@ -6,6 +6,8 @@ interface ExternalButtonProps {
   children: React.ReactNode;
   variant?: "solid" | "gold";
   className?: string;
+  product?: string;
+  trackingLocation?: string;
 }
 
 /**
@@ -17,12 +19,16 @@ export function ExternalButton({
   children,
   variant = "gold",
   className,
+  product,
+  trackingLocation = "external_button",
 }: ExternalButtonProps) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      data-analytics-affiliate={product}
+      data-analytics-location={trackingLocation}
       className={cn(
         "inline-flex items-center justify-center gap-2.5 rounded-btn px-6 py-3 text-sm font-semibold transition-all duration-200",
         variant === "gold"
