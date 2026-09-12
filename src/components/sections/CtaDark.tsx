@@ -11,6 +11,8 @@ interface CtaDarkProps {
   numberDisplay?: string;
   subtext?: string;
   description?: string;
+  message?: string;
+  trackingLocation?: string;
 }
 
 /** One continuous surface brings the invitation and contact options together. */
@@ -21,6 +23,8 @@ export function CtaDark({
   numberDisplay = siteConfig.whatsapp.display,
   subtext = "Pode perguntar. A gente explica.",
   description = "Conte o que você precisa. A gente ouve, explica as opções e ajuda você a escolher com tranquilidade.",
+  message,
+  trackingLocation = "cta_final",
 }: CtaDarkProps) {
   return (
     <section className="relative isolate overflow-hidden bg-navy text-white" aria-label="Converse com a Gerseg">
@@ -38,11 +42,11 @@ export function CtaDark({
           <div className="border-t border-white/20 pt-8 desk:border-l desk:border-t-0 desk:py-2 desk:pl-14">
             <p className="font-serif text-2xl font-medium">Uma conversa faz a diferença.</p>
             <p className="mt-2 text-sm leading-6 text-white/70">{subtext}</p>
-            <a href={whatsappUrl(number)} target="_blank" rel="noopener noreferrer" aria-label={`Conversar com a Gerseg pelo WhatsApp no número ${numberDisplay}`} className="group mt-6 inline-flex min-h-14 w-full items-center justify-between gap-3 rounded-btn bg-gold px-5 py-4 text-sm font-medium text-navy transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105">
+            <a href={whatsappUrl(number, message)} target="_blank" rel="noopener noreferrer" aria-label={`Conversar com a Gerseg pelo WhatsApp no número ${numberDisplay}`} data-analytics-location={`${trackingLocation}_whatsapp`} className="group mt-6 inline-flex min-h-14 w-full items-center justify-between gap-3 rounded-btn bg-gold px-5 py-4 text-sm font-medium text-navy transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105">
               <span className="flex items-center gap-3"><WhatsAppIcon className="h-5 w-5 shrink-0" />Conversar no WhatsApp</span>
               <ArrowUpRight size={19} className="shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
-            <a href={`tel:+${number}`} className="mt-4 flex min-h-11 flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/80 underline-offset-4 hover:text-white hover:underline">
+            <a href={`tel:+${number}`} data-analytics-location={`${trackingLocation}_phone`} className="mt-4 flex min-h-11 flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/80 underline-offset-4 hover:text-white hover:underline">
               <Phone size={15} className="mr-1 shrink-0 text-gold" aria-hidden="true" />
               <span>Prefere ligar?</span><span className="whitespace-nowrap font-medium text-white">{numberDisplay}</span>
             </a>

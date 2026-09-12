@@ -24,7 +24,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
           {col.map((item) => (
             <AccordionItem key={item.question} value={item.question}>
               <AccordionTrigger>{item.question}</AccordionTrigger>
-              <AccordionContent>{item.answer}</AccordionContent>
+              <AccordionContent forceMount>{item.answer}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>

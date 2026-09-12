@@ -3,6 +3,8 @@ import { ChevronRight } from "lucide-react";
 
 interface PageBannerProps {
   title: string;
+  /** Rótulo curto no breadcrumb quando o H1 for mais descritivo. */
+  currentLabel?: string;
   /** Itens intermediários do breadcrumb (depois de "Home", antes da página atual) */
   trail?: { label: string; href?: string }[];
 }
@@ -10,6 +12,7 @@ interface PageBannerProps {
 /** Banner de título das páginas internas + breadcrumb "Home › Serviços › …". */
 export function PageBanner({
   title,
+  currentLabel = title,
   trail = [{ label: "Serviços", href: "/#produtos" }],
 }: PageBannerProps) {
   return (
@@ -44,7 +47,7 @@ export function PageBanner({
             <li className="flex items-center gap-1.5">
               <ChevronRight className="h-3 w-3" aria-hidden="true" />
               <span aria-current="page" className="text-gold">
-                {title}
+                {currentLabel}
               </span>
             </li>
           </ol>

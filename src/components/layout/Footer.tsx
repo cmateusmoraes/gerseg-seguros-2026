@@ -29,20 +29,29 @@ export function Footer() {
                 label: "Instagram",
                 href: siteConfig.social.instagram,
                 Icon: Instagram,
+                socialNetwork: "instagram",
               },
               {
                 label: "Facebook",
                 href: siteConfig.social.facebook,
                 Icon: Facebook,
+                socialNetwork: "facebook",
               },
-              { label: "WhatsApp", href: whatsappUrl(), Icon: WhatsAppIcon },
-            ].map(({ label, href, Icon }) => (
+              {
+                label: "WhatsApp",
+                href: whatsappUrl(),
+                Icon: WhatsAppIcon,
+                socialNetwork: undefined,
+              },
+            ].map(({ label, href, Icon, socialNetwork }) => (
               <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${label} da Gerseg Seguros`}
+                data-analytics-social={socialNetwork}
+                data-analytics-location="footer_social"
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-navy/20 transition-colors hover:bg-navy hover:text-white"
               >
                 <Icon className="h-4 w-4" />
@@ -71,18 +80,21 @@ export function Footer() {
           <h2 className="eyebrow mb-6 text-muted">Dúvidas? Contato</h2>
           <a
             href={`tel:+55${siteConfig.phone.cellDisplay.replace(/\D/g, "")}`}
+            data-analytics-location="footer_phone_mobile"
             className="block text-sm hover:underline"
           >
             {siteConfig.phone.cellDisplay}
           </a>
           <a
             href={`tel:+${siteConfig.whatsapp.number}`}
+            data-analytics-location="footer_phone_main"
             className="mt-3 block text-sm hover:underline"
           >
             {siteConfig.phone.display}
           </a>
           <a
             href={`mailto:${siteConfig.email}`}
+            data-analytics-location="footer_email"
             className="mt-4 inline-flex items-center gap-2 text-xs hover:underline"
           >
             E-mail <ArrowUpRight size={13} aria-hidden="true" />

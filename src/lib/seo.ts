@@ -118,13 +118,14 @@ export const homeMetadata: Metadata = {
 
 export function serviceMetadata(product: Product): Metadata {
   const url = productUrl(product.slug);
+  const title = product.seoTitle ?? product.title;
 
   return {
-    title: product.title,
+    title,
     description: product.seoDescription,
     alternates: { canonical: url },
     openGraph: {
-      title: `${product.title} | ${siteConfig.name}`,
+      title: `${title} | ${siteConfig.name}`,
       description: product.seoDescription,
       url,
       siteName: siteConfig.name,
@@ -134,7 +135,7 @@ export function serviceMetadata(product: Product): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.title} | ${siteConfig.name}`,
+      title: `${title} | ${siteConfig.name}`,
       description: product.seoDescription,
       images: [{ url: socialImage.url, alt: socialImage.alt }],
     },
@@ -153,7 +154,7 @@ export function serviceStructuredData(product: Product) {
         "@type": "WebPage",
         "@id": `${url}#webpage`,
         url,
-        name: `${product.title} | ${siteConfig.name}`,
+        name: `${product.seoTitle ?? product.title} | ${siteConfig.name}`,
         description: product.seoDescription,
         inLanguage: "pt-BR",
         isPartOf: { "@id": websiteId },

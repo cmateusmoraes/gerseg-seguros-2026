@@ -13,6 +13,7 @@ export function WhatsAppFloat({
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Fale conosco pelo WhatsApp"
+      data-analytics-location="whatsapp_float"
       className="group fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-navy text-white shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
       <WhatsAppIcon className="h-7 w-7" />
